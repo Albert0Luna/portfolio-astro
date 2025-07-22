@@ -1,22 +1,55 @@
-<!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
-</html>
+---
+import Header from "../components/Header.astro";
+import "@fontsource/be-vietnam-pro";
+import "@fontsource-variable/gabarito";
+import { SITE_CONFIG } from "../config/index";
+import LanguageSwitcher from "../components/LanguageSwitcher.astro";
+// import Footer from "@components/Footer.astro";
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
+const {
+  title,
+  description,
+  siteLogo,
+  navLinks,
+  author,
+  socialLinks,
+  socialImage,
+  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
+} = SITE_CONFIG;
+
+const pathname = Astro.url.pathname;
+const lang = pathname.split("/")[1] || "en"; // fallback to 'en'
+const ogImgUrl = canonicalURL + socialImage;
+---
+
+<!doctype html>
+<html lang={lang} class="scroll-pt-16 scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content={description} />
+    <meta name="author" content={author} />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImgUrl} />
+
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={ogImgUrl} />
+  </head>
+  <body class="bg-black font-sans">
+    <!-- <Header siteLogo={siteLogo} navLinks={navLinks} /> -->
+    <main class="mx-auto max-w-3xl px-5">
+      <Header siteLogo={siteLogo} navLinks={navLinks} />
+      <slot />
+    </main>
+    <!-- <Footer author={author} socialLinks={socialLinks} /> -->
+  </body>
+</html>

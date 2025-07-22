@@ -1,8 +1,10 @@
 ---
+import { SITE_CONTENT_EN } from "../config/index";
+import Hero from "../components/Hero.astro";
 import Layout from "../layouts/Layout.astro";
 import "../styles/global.css";
 ---
 
 <Layout>
-  <h1 class="text-2xl">This is my portfolio</h1>
+  <Hero {...SITE_CONTENT_EN.hero} />
 </Layout>
