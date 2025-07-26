@@ -4,12 +4,12 @@ export const SITE_CONFIG: SiteConfig = {
   title: "Alberto Luna — Full Stack Developer",
   author: "Alberto Luna",
   description:
-    "Software Engineer based in San Francisco, USA. I specialize in UI design, web and mobile application development and maintenance.",
+    "Portfolio of Alberto Luna, a Full Stack Developer with expertise in modern, scalable applications.",
   lang: "en",
   siteLogo: "/alberto-small.jpg",
   navLinks: [
-    { text: "Experience", href: "#experience" },
     { text: "Projects", href: "#projects" },
+    { text: "Experience", href: "#experience" },
     { text: "About", href: "#about" },
   ],
   socialLinks: [
@@ -28,9 +28,25 @@ export const SITE_CONTENT_EN: SiteContent = {
     name: "Alberto Luna",
     specialty: "Full Stack Developer",
     summary:
-      "Developer based in San Francisco, USA. I specialize in UI design, web and mobile application development and maintenance.",
+      "Full stack developer with experience in modern, scalable applications, focused on performance, security, and accessibility, with projects in SaaS, e-commerce, and personal sites.",
     email: "albertorl1002@gmail.com",
   },
+  projects: [
+    {
+      name: "Spotifu Music",
+      summary: "A music streaming app that emulates Spotify's core features.",
+      linkPreview: "/",
+      linkSource: "https://github.com/immois/astro-zen",
+      image: "https://play-lh.googleusercontent.com/kDXJ6XA2Cm47lzDCvvu6HNCu0PWmTwZKiY0ldCWrCgXGT3Ms-lbP_WN1v5vknspnLT15=w526-h296-rw",
+    },
+    {
+      name: "Shopp App",
+      summary: "An e-commerce platform that replicates Shopify's key features.",
+      linkPreview: "/",
+      linkSource: "https://github.com/immois/astro-zen",
+      image: "https://play-lh.googleusercontent.com/kDXJ6XA2Cm47lzDCvvu6HNCu0PWmTwZKiY0ldCWrCgXGT3Ms-lbP_WN1v5vknspnLT15=w526-h296-rw",
+    },
+  ],
   experience: [
     {
       company: "Zalmart",
@@ -60,29 +76,6 @@ export const SITE_CONTENT_EN: SiteContent = {
       endDate: "Oct 2016",
       summary:
         "Developed and integrated a real-time vehicle tracking system using WebSockets, improving accuracy and data update in the application. This functionality increased user satisfaction by 30% and reduced customer service inquiries by 25%.",
-    },
-  ],
-  projects: [
-    {
-      name: "Spotifu Music",
-      summary: "A music streaming app that emulates Spotify's core features.",
-      linkPreview: "/",
-      linkSource: "https://github.com/immois/astro-zen",
-      image: "/spotifu.png",
-    },
-    {
-      name: "Shopp App",
-      summary: "An e-commerce platform that replicates Shopify's key features.",
-      linkPreview: "/",
-      linkSource: "https://github.com/immois/astro-zen",
-      image: "/shopify-clon.png",
-    },
-    {
-      name: "ClonTagram",
-      summary: "A social network that replicates the features of Instagram",
-      linkPreview: "/",
-      linkSource: "https://github.com/immois/astro-zen",
-      image: "/clone-ig.png",
     },
   ],
   about: {
@@ -100,12 +93,59 @@ export const SITE_CONTENT_ES: SiteContent = {
     name: "Alberto Luna",
     specialty: "Desarrollador Full Stack",
     summary:
-      "Developer based in San Francisco, USA. I specialize in UI design, web and mobile application development and maintenance.",
+      "Desarrollador full-stack con experiencia en aplicaciones modernas y escalables, enfocado en rendimiento, seguridad y accesibilidad, con proyectos en SaaS, e-commerce y sitios personales.",
     email: "albertorl1002@gmail.com",
   },
+  projects: [
+    {
+      name: "Ecliptica",
+      summary: "Plataforma full-stack para gestion de ingresos personales.",
+      date: "Julio 2025",
+      stack: [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "MongoDB",
+        "Zod",
+      ],
+      linkPreview: "https://ecliptica-six.vercel.app/",
+      linkSource: "https://github.com/immois/astro-zen",
+      image: "/ecliptica.png",
+    },
+    {
+      name: "Luna News",
+      summary: "Sitio web dinámico enfocado en noticias y recursos sobre programación.",
+      date: "Agosto 2024",
+      stack: [
+        "React",
+        "Next.js",
+        "Tailwind CSS",
+        "MongoDB",
+        "next-intl"
+      ],
+      linkPreview: "https://www.lunanews.tech/",
+      linkSource: "https://github.com/immois/astro-zen",
+      image: "/luna.png",
+    },
+    {
+      name: "UNIMART",
+      summary: "Tienda online con busqueda, filtros, carrito",
+      date: "Enero 2025",
+      stack: [
+        "React",
+        "TypeScript",
+        "Redux Toolkit",
+        "Tailwind CSS"
+      ],
+      linkPreview: "https://uni-mart-six.vercel.app/",
+      linkSource: "https://github.com/Albert0Luna/UniMart",
+      image: "/unimart.png",
+    },
+  ],
   experience: [
     {
-      company: "Zalmart",
+      company: "Ecliptica",
       position: "Lead Android Developer",
       startDate: "May 2018",
       endDate: "Sept 2020",
@@ -132,29 +172,6 @@ export const SITE_CONTENT_ES: SiteContent = {
       endDate: "Oct 2016",
       summary:
         "Developed and integrated a real-time vehicle tracking system using WebSockets, improving accuracy and data update in the application. This functionality increased user satisfaction by 30% and reduced customer service inquiries by 25%.",
-    },
-  ],
-  projects: [
-    {
-      name: "Spotifu Music",
-      summary: "A music streaming app that emulates Spotify's core features.",
-      linkPreview: "/",
-      linkSource: "https://github.com/immois/astro-zen",
-      image: "/spotifu.png",
-    },
-    {
-      name: "Shopp App",
-      summary: "An e-commerce platform that replicates Shopify's key features.",
-      linkPreview: "/",
-      linkSource: "https://github.com/immois/astro-zen",
-      image: "/shopify-clon.png",
-    },
-    {
-      name: "ClonTagram",
-      summary: "A social network that replicates the features of Instagram",
-      linkPreview: "/",
-      linkSource: "https://github.com/immois/astro-zen",
-      image: "/clone-ig.png",
     },
   ],
   about: {

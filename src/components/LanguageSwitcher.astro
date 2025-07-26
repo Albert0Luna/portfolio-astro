@@ -5,7 +5,9 @@ const { language } = Astro.props;
 const spanishPage = getRelativeLocaleUrl(language === "en" ? "es" : "en");
 ---
 
-<div class="text-white relative flex flex-col items-center justify-center">
+<div
+  class="text-white relative flex flex-col items-center justify-center gap-2"
+>
   <button
     id="dropdownDefaultButton"
     data-dropdown-toggle="dropdown"
@@ -32,7 +34,7 @@ const spanishPage = getRelativeLocaleUrl(language === "en" ? "es" : "en");
   <!-- Dropdown menu -->
   <div
     id="dropdown"
-    class="z-10 absolute bg-white divide-y divide-gray-100 rounded-xl shadow-sm w-auto dark:bg-gray-700 top-11"
+    class="hidden z-10 bg-white divide-y divide-gray-100 rounded-xl shadow-sm w-auto dark:bg-gray-700 top-11"
   >
     <ul class="text-sm text-gray-700 dark:text-gray-200">
       <li>

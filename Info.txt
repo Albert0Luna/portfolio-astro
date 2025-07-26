@@ -1,0 +1,71 @@
+GUSTAVO ALBERTO ROBLES LUNA
+Desarrollador Full-Stack JavaScript | Frontend - Backend - UI/UX - DevTools
+Querétaro, México | 23 años
+FORMACION ACADEMICA
+Ingeniería en Sistemas Computacionales - UVEG
+Cursado: 2 años, 7 meses | Promedio: 9.5
+IDIOMAS
+- Español: Nativo
+- Inglés: Intermedio (lectura técnica fluida, comunicación funcional)
+CERTIFICACIONES TECNICAS
+- MongoDB Node.js Developer Path - MongoDB Inc.
+Completado el 03 de abril de 2025
+- MongoDB Advanced Schema Design Patterns & Anti-patterns
+Emitido: Julio 2025
+- GitHub Foundations - GitHub
+Válido hasta abril 2028
+- AWS Certified Cloud Practitioner - Amazon Web Services
+Válido hasta julio 2028
+CURSOS ESPECIALIZADOS - Frontend Masters
+- API Design in Node.js (v4) - Scott Moss
+- Introduction to Node.js (v3) - Scott Moss
+- Complete Intro to React (v8) - Brian Holt
+- Intermediate React (v5) - Brian Holt
+- JavaScript: The Hard Parts (v2) - Will Sentance
+- The Hard Parts of OOP JS - Will Sentance
+- Full Stack for Front-End Engineers (v3) - Jem Young
+- JavaScript: From First Steps to Professional - Anjana Vakil
+PROYECTOS DESTACADOS
+ECLIPTICA (SaaS Finanzas - Beta Julio 2025)
+Plataforma full-stack para gestion financiera personal.
+Stack: React, Next.js, TypeScript, Tailwind CSS, MongoDB, Zod, ESLint, Bun
+Destaca por: Validacion robusta, arquitectura escalable, UI responsiva
+🔹 Luna News (Portal de noticias tecnológicas)
+Descripción:
+Sitio web dinámico enfocado en noticias y recursos sobre programación.
+
+Funcionalidades clave:
+
+Navegación por secciones: Noticias, Tutoriales, Reviews, Programación, IA, Ciberseguridad, etc.
+
+Contenido dinámico con soporte multilenguaje
+
+Optimizado para rendimiento, SEO y experiencia móvil
+
+Stack Tecnológico:
+React, Next.js, Node.js, MongoDB, next-intl
+
+Media Hosting: Cloudinary
+
+Enfoque:
+Escalabilidad, contenido modular, arquitectura limpia y experiencia de usuario fluida.
+UNIMART (E-commerce - Enero 2025)
+Tienda online con busqueda, filtros, carrito
+Stack: React, TypeScript, Redux Toolkit, Vite, Tailwind CSS
+Testing: Vitest, Testing Library
+HABILIDADES TECNICAS
+Frontend: React, Next.js, Astro, Tailwind, HTML, CSS (BEM), Vanilla JS
+Backend: Node.js, API Routes, Zod, Express (conceptos), Auth, Rate Limiting
+Bases de Datos: MongoDB, Mongoose (conceptos)
+DevTools: Bun, ESLint, Prettier, Vite, PNPM, GitHub Actions
+Testing: Vitest, Testing Library, happy-dom
+Otros: Redux Toolkit, RHF, clsx, DOMPurify, Date-fns, Sonner, Lucide Icons
+PERFIL PROFESIONAL
+Desarrollador full-stack con experiencia en aplicaciones modernas y escalables.
+Enfocado en rendimiento, seguridad y accesibilidad.
+Experiencia en SaaS, e-commerce y sitios personales.
+
+Experiencia: 
+
+ECLIPTICA
+(SaaS Finanzas - Beta Julio 2025)
