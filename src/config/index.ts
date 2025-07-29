@@ -8,9 +8,9 @@ export const SITE_CONFIG: SiteConfig = {
   lang: "en",
   siteLogo: "/alberto-small.jpg",
   navLinks: [
-    { text: "Projects", href: "#projects" },
-    { text: "Experience", href: "#experience" },
-    { text: "About", href: "#about" },
+    { text: "Projects", textEs: "Proyectos", href: "#projects" },
+    { text: "Experience", textEs: "Experiencia", href: "#experience" },
+    { text: "About", textEs: "Sobre mí", href: "#about" },
   ],
   socialLinks: [
     { text: "Twitter", href: "https://github.com/immois/astro-zen" },
@@ -33,57 +33,84 @@ export const SITE_CONTENT_EN: SiteContent = {
   },
   projects: [
     {
-      name: "Spotifu Music",
-      summary: "A music streaming app that emulates Spotify's core features.",
-      linkPreview: "/",
-      linkSource: "https://github.com/immois/astro-zen",
-      image: "https://play-lh.googleusercontent.com/kDXJ6XA2Cm47lzDCvvu6HNCu0PWmTwZKiY0ldCWrCgXGT3Ms-lbP_WN1v5vknspnLT15=w526-h296-rw",
+      name: "Ecliptica",
+      summary: "Full-stack platform for personal income management.",
+      date: "July 2025",
+      stack: [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "Tailwind CSS",
+        "MongoDB",
+        "Zod",
+      ],
+      linkPreview: "https://ecliptica-six.vercel.app/",
+      image: "/ecliptica.webp",
     },
     {
-      name: "Shopp App",
-      summary: "An e-commerce platform that replicates Shopify's key features.",
-      linkPreview: "/",
-      linkSource: "https://github.com/immois/astro-zen",
-      image: "https://play-lh.googleusercontent.com/kDXJ6XA2Cm47lzDCvvu6HNCu0PWmTwZKiY0ldCWrCgXGT3Ms-lbP_WN1v5vknspnLT15=w526-h296-rw",
+      name: "Luna News",
+      summary: "Dynamic website focused on programming news and resources.",
+      date: "August 2024",
+      stack: [
+        "React",
+        "Next.js",
+        "Tailwind CSS",
+        "MongoDB",
+        "next-intl"
+      ],
+      linkPreview: "https://www.lunanews.tech/",
+      image: "/luna-news.webp",
+    },
+    {
+      name: "UniMart",
+      summary: "Online store with search, filters, and cart functionality.",
+      date: "January 2025",
+      stack: [
+        "React",
+        "TypeScript",
+        "Redux Toolkit",
+        "Tailwind CSS"
+      ],
+      linkPreview: "https://uni-mart-six.vercel.app/",
+      linkSource: "https://github.com/Albert0Luna/UniMart",
+      image: "/unimart.webp",
     },
   ],
   experience: [
     {
-      company: "Zalmart",
-      position: "Lead Android Developer",
-      startDate: "May 2018",
-      endDate: "Sept 2020",
+      company: "Ecliptica",
+      position: "Full Stack Developer",
+      startDate: "March 2025",
+      endDate: "Present",
       summary: [
-        "Implemented advanced memory management and code optimization techniques, resulting in a reduction in application load time by 40% and a decrease in crashes by 25%. This significantly improved user experience and increased user retention by 20%.",
-        "I led a team of developers in building and integrating new features using Jetpack Android components such as LiveData and ViewModel. This enabled us to build scalable and maintainable applications, reducing the crash rate by 20% and speeding up the time to delivery of new features by 15%.",
-        "Integrated Google Pay for in-app purchases, resulting in a 35% increase in mobile transaction revenue. Additionally, implemented Firebase Analytics to gain insights into user behavior, enabling data-driven optimizations and a 30% increase in user retention.",
+        "Developed a full-stack platform for personal financial management using Next.js as the main framework, focusing on speed, SEO, scalability, and security.",
+        "On the frontend, implemented a responsive interface with Tailwind CSS and shadcn/ui components, incorporating dark mode support. Client-side interactivity and logic were built with React and TypeScript, leveraging Next.js's modern Server Components and Client Components architecture.",
+        "On the backend, utilized Next.js API Routes to handle CRUD operations, authentication, and business logic. Data validation is done with Zod, and input sanitization with DOMPurify, ensuring security against attacks like XSS. ESLint was applied for clean and consistent code, with data stored in MongoDB.",
       ],
     },
     {
-      company: "Bankit",
-      position: "Mobile Developer",
-      startDate: "Feb 2017",
-      endDate: "May 2018",
+      company: "Luna News",
+      position: "Full Stack Developer",
+      startDate: "August 2024",
+      endDate: "June 2025",
       summary: [
-        "I designed and developed a mobile application using Flutter, allowing it to be deployed on both Android and iOS with a single codebase. This reduced development time by 50% and maintenance costs by 30%, facilitating a consistent user experience on both platforms.",
-        "I integrated biometric authentication and data encryption, significantly improving the security of user data. This implementation resulted in a 40% increase in user trust and a 25% reduction in unauthorized access attempts.",
+        "Developed a programming news blog using Next.js and MongoDB, with a scalable architecture, multilingual support, and optimization focused on performance and SEO.",
+        "On the frontend, used React and Next.js along with Tailwind CSS, implementing light and dark themes. Thanks to Next.js's Server-Side Rendering (SSR) capabilities, achieved fast loading and excellent search engine indexing. Internationalization was managed with next-intl, allowing content to easily adapt to different languages.",
+        "On the backend, used Next.js API Routes to process requests securely and efficiently. Information is stored in MongoDB, providing flexibility and scalability to handle large volumes of dynamic content."
       ],
     },
     {
-      company: "Driveer",
+      company: "UniMart",
       position: "Frontend Developer",
-      startDate: "Jun 2015",
-      endDate: "Oct 2016",
-      summary:
-        "Developed and integrated a real-time vehicle tracking system using WebSockets, improving accuracy and data update in the application. This functionality increased user satisfaction by 30% and reduced customer service inquiries by 25%.",
+      startDate: "December 2024",
+      endDate: "January 2025",
+      summary: [
+        "Digital store with complete search, filter, and shopping cart functionalities, designed to offer a smooth and intuitive user experience on both mobile and desktop devices.",
+        "The interface was built with React and Redux Toolkit, enabling efficient state management and dynamic navigation without reloads. Although everything is currently managed on the client side, the architecture is ready to easily incorporate a backend with Node.js and MongoDB, allowing the project to scale to features like authentication, product management, and data persistence."
+      ],
     },
   ],
   about: {
-    description: `
-      Hi, I’m Alejandro Múnez, a passionate Mobile and Web Developer with a knack for crafting seamless digital experiences. With a strong background in both Android and iOS development, as well as front-end web technologies, I thrive in the intersection where creativity meets technology.
-
-      Over the years, I’ve honed my skills in building robust, user-friendly applications that not only meet the needs of users but also push the boundaries of what’s possible. My projects range from innovative mobile applications to responsive web designs, all with a focus on performance, security, and scalability.
-    `,
     image: "/alejandro-big.jpg",
   },
 };
@@ -110,8 +137,7 @@ export const SITE_CONTENT_ES: SiteContent = {
         "Zod",
       ],
       linkPreview: "https://ecliptica-six.vercel.app/",
-      linkSource: "https://github.com/immois/astro-zen",
-      image: "/ecliptica.png",
+      image: "/ecliptica.webp",
     },
     {
       name: "Luna News",
@@ -125,11 +151,11 @@ export const SITE_CONTENT_ES: SiteContent = {
         "next-intl"
       ],
       linkPreview: "https://www.lunanews.tech/",
-      linkSource: "https://github.com/immois/astro-zen",
-      image: "/luna.png",
+      linkSource: "https://github.com/Albert0Luna/luna-news",
+      image: "/luna-news.webp",
     },
     {
-      name: "UNIMART",
+      name: "UniMart",
       summary: "Tienda online con busqueda, filtros, carrito",
       date: "Enero 2025",
       stack: [
@@ -140,46 +166,44 @@ export const SITE_CONTENT_ES: SiteContent = {
       ],
       linkPreview: "https://uni-mart-six.vercel.app/",
       linkSource: "https://github.com/Albert0Luna/UniMart",
-      image: "/unimart.png",
+      image: "/unimart.webp",
     },
   ],
   experience: [
     {
       company: "Ecliptica",
-      position: "Lead Android Developer",
-      startDate: "May 2018",
-      endDate: "Sept 2020",
+      position: "Desarrollador Full-Stack",
+      startDate: "Marzo 2025",
+      endDate: "En curso",
       summary: [
-        "Implemented advanced memory management and code optimization techniques, resulting in a reduction in application load time by 40% and a decrease in crashes by 25%. This significantly improved user experience and increased user retention by 20%.",
-        "I led a team of developers in building and integrating new features using Jetpack Android components such as LiveData and ViewModel. This enabled us to build scalable and maintainable applications, reducing the crash rate by 20% and speeding up the time to delivery of new features by 15%.",
-        "Integrated Google Pay for in-app purchases, resulting in a 35% increase in mobile transaction revenue. Additionally, implemented Firebase Analytics to gain insights into user behavior, enabling data-driven optimizations and a 30% increase in user retention.",
+        "Desarrollé una plataforma full-stack para la gestión financiera personal utilizando Next.js como framework principal con un enfoque en la velocidad, SEO, escalabilidad y la seguridad.",
+        "En el frontend, implementé una interfaz responsiva con Tailwind CSS y componentes de shadcn/ui, incorporando soporte para modo oscuro. La interactividad y la lógica del cliente se construyeron con React y TypeScript, aprovechando la arquitectura moderna de Server Components y Client Components ofrecida por Next.js.",
+        "En el backend, utilicé las API Routes de Next.js para manejar operaciones CRUD, autenticación y lógica de negocio. La validación de datos se realiza con Zod, y la sanitización de entradas con DOMPurify, garantizando seguridad contra ataques como XSS. Para mantener un código limpio y consistente, se aplicó ESLint, y los datos se almacenan en MongoDB.",
       ],
     },
     {
-      company: "Bankit",
-      position: "Mobile Developer",
-      startDate: "Feb 2017",
-      endDate: "May 2018",
+      company: "Luna News",
+      position: "Desarrollador Full-Stack",
+      startDate: "Agosto 2024",
+      endDate: "Junio 2025",
       summary: [
-        "I designed and developed a mobile application using Flutter, allowing it to be deployed on both Android and iOS with a single codebase. This reduced development time by 50% and maintenance costs by 30%, facilitating a consistent user experience on both platforms.",
-        "I integrated biometric authentication and data encryption, significantly improving the security of user data. This implementation resulted in a 40% increase in user trust and a 25% reduction in unauthorized access attempts.",
+        "Desarrollé un blog de noticias de programación utilizando Next.js y MongoDB, con una arquitectura escalable, soporte multilenguaje y optimización enfocada en rendimiento y SEO.",
+        "En el frontend, utilicé React y Next.js junto con Tailwind CSS, implementando temas claro y oscuro. Gracias a las capacidades de Server-Side Rendering (SSR) de Next.js, logré una carga rápida y una excelente indexación en motores de búsqueda. La internacionalización fue gestionada mediante next-intl, lo que permite que el contenido se adapte fácilmente a diferentes idiomas.",
+        "En el backend, utilicé las API Routes de Next.js para procesar solicitudes de forma segura y eficiente. La información se almacena en MongoDB, lo que brinda flexibilidad y escalabilidad para manejar grandes volúmenes de contenido dinámico."
       ],
     },
     {
-      company: "Driveer",
+      company: "UniMart",
       position: "Frontend Developer",
-      startDate: "Jun 2015",
-      endDate: "Oct 2016",
-      summary:
-        "Developed and integrated a real-time vehicle tracking system using WebSockets, improving accuracy and data update in the application. This functionality increased user satisfaction by 30% and reduced customer service inquiries by 25%.",
+      startDate: "Diciembre 2024",
+      endDate: "Enero 2025",
+      summary: [
+        "Tienda digital con funcionalidades completas de búsqueda, filtros y carrito de compras, diseñada para ofrecer una experiencia de usuario fluida e intuitiva tanto en dispositivos móviles como de escritorio.",
+        "La interfaz fue construida con React y Redux Toolkit, lo que permitió un manejo eficiente del estado y una navegación dinámica sin recargas. Aunque actualmente todo se gestiona en el lado del cliente, la arquitectura está preparada para incorporar fácilmente un backend con Node.js y MongoDB, permitiendo escalar el proyecto hacia funcionalidades como autenticación, gestión de productos y persistencia de datos."
+      ],
     },
   ],
   about: {
-    description: `
-      Hi, I’m Alejandro Múnez, a passionate Mobile and Web Developer with a knack for crafting seamless digital experiences. With a strong background in both Android and iOS development, as well as front-end web technologies, I thrive in the intersection where creativity meets technology.
-
-      Over the years, I’ve honed my skills in building robust, user-friendly applications that not only meet the needs of users but also push the boundaries of what’s possible. My projects range from innovative mobile applications to responsive web designs, all with a focus on performance, security, and scalability.
-    `,
     image: "/alejandro-big.jpg",
   },
 };

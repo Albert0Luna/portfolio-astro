@@ -41,11 +41,10 @@ export interface ProjectProps {
 }
 
 export interface AboutProps {
-  description: string;
   image: string;
 }
 
 export interface HeaderProps {
   siteLogo: string;
-  navLinks: { text: string; href: string }[];
+  navLinks: { text: string; textEs: string; href: string }[];
 }

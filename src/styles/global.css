@@ -59,13 +59,13 @@
 .about-description {
   animation: reveal linear both;
   animation-timeline: view();
-  animation-range: entry 20% cover 50%;
+  animation-range: entry 20% cover 20%;
 }
 
 .about-photo {
   animation: scale linear both;
   animation-timeline: view();
-  animation-range: entry 20% cover 50%;
+  animation-range: entry 20% cover 30%;
 }
 
 h2 {
@@ -91,7 +91,7 @@ h2 {
 @keyframes scale {
   0% {
     opacity: 0;
-    scale: 0;
+    scale: 0.5;
   }
 
   100% {
@@ -103,11 +103,9 @@ h2 {
 @keyframes slide-left {
   0% {
     opacity: 0;
-    transform: translateX(-100px);
   }
 
   100% {
     opacity: 1;
-    transform: translateX(0);
   }
 }

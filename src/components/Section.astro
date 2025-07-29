@@ -1,17 +1,21 @@
 ---
 interface Props {
   text: string;
+  textEs: string;
   href: string;
 }
 
-const { text, href } = Astro.props;
+const { text, textEs, href } = Astro.props;
+
+const pathname = Astro.url.pathname;
+const lang = pathname.split("/")[1] || "en"; // fallback to 'en'
 ---
 
 <section id={href} class="py-24">
   <h2
-    class="mb-14 font-serif text-4xl font-bold tracking-tighter text-white md:text-5xl"
+    class="mb-12 font-serif text-4xl font-bold tracking-tighter text-white md:text-5xl"
   >
-    {text}
+    {lang === "es" ? textEs : text}
   </h2>
   <slot />
 </section>

@@ -1,5 +1,5 @@
 ---
-import About from "../../components/About.astro";
+import AboutEs from "../../components/AboutEs.astro";
 import Experience from "../../components/Experience.astro";
 import Hero from "../../components/Hero.astro";
 import Projects from "../../components/Projects.astro";
@@ -11,5 +11,5 @@ import Layout from "../../layouts/Layout.astro";
   <Hero {...SITE_CONTENT_ES.hero} />
   <Projects projects={SITE_CONTENT_ES.projects} />
   <Experience experience={SITE_CONTENT_ES.experience} />
-  <About {...SITE_CONTENT_ES.about} name={SITE_CONTENT_ES.hero.name} />
+  <AboutEs {...SITE_CONTENT_ES.about} name={SITE_CONTENT_ES.hero.name} />
 </Layout>

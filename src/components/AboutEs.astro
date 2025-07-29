@@ -1,0 +1,91 @@
+---
+import type { AboutProps, HeroProps } from "../types";
+import Section from "./Section.astro";
+import { Image } from "astro:assets";
+
+type Props = AboutProps & Pick<HeroProps, "name">;
+
+const { image, name } = Astro.props;
+---
+
+<Section text="About Me" textEs="Sobre mí" href="about">
+  <h3 class="text-xl font-bold text-slate-200 mb-4">
+    Hola! Soy Gustavo Alberto Robles Luna 👋
+  </h3>
+  <div class="flex flex-col items-center gap-12 md:flex-row md:gap-8">
+    <div
+      class="w-auto text-base text-neutral md:pr-5 about-description flex flex-col gap-4 text-balance"
+    >
+      <div class="space-y-4 pl-2 md:pl-4">
+        <p class="text-base leading-relaxed">
+          Soy un <span class="font-semibold text-blue-400"
+            >desarrollador Full-Stack JavaScript</span
+          > de 23 años, resido en
+          <span class="font-semibold text-blue-400">Querétaro, México</span>.
+          Estudio <span class="font-semibold"
+            >Ingeniería en Sistemas Computacionales</span
+          > (UVEG, promedio 9.5), pero lo que realmente me impulsa es mi pasión por
+          la programación.
+        </p>
+        <ul class="list-disc list-inside text-base leading-relaxed">
+          <li class="mb-4">
+            Certificaciones:
+            <ul class="list-none pl-0">
+              <li>
+                <a
+                  href="https://learn.mongodb.com/c/UhARMgERRzyn7bMzcpO_Zw"
+                  target="_blank"
+                  class="text-blue-400 underline font-medium"
+                  >MongoDB Node.js Developer Path</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.credly.com/badges/f8049746-611a-4b20-8310-fe3a6c0f9168/public_url"
+                  target="_blank"
+                  class="text-blue-400 underline font-medium"
+                  >Advanced Schema Design</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.credly.com/badges/01317c41-b90c-4362-9206-78c357ff36df/public_url"
+                  target="_blank"
+                  class="text-blue-400 underline font-medium"
+                  >GitHub Foundations</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://www.credly.com/badges/7709c02c-2a2c-428e-825b-655874a86f41/public_url"
+                  target="_blank"
+                  class="text-blue-400 underline font-medium"
+                  >AWS Cloud Practitioner</a
+                >
+              </li>
+            </ul>
+          </li>
+          <li>
+            Idiomas: <span class="font-semibold">Español nativo</span> e <span
+              class="font-semibold">inglés intermedio</span
+            >.
+          </li>
+        </ul>
+        <p class="text-base leading-relaxed font-medium text-green-400">
+          ¡Listo para nuevos desafíos y crear soluciones increíbles!
+        </p>
+      </div>
+    </div>
+    <div
+      class="h-80 w-64 flex-shrink-0 rotate-[5deg] bg-white p-4 md:rotate-[7deg] about-photo"
+    >
+      <Image
+        class="object-cover"
+        src={image}
+        width="260"
+        height="260"
+        alt={name}
+      />
+    </div>
+  </div>
+</Section>
