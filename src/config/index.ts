@@ -2,25 +2,23 @@ import type { SiteConfig, SiteContent } from "../types/index";
 
 export const SITE_CONFIG: SiteConfig = {
   title: "Alberto Luna — Full Stack Developer",
-  author: "Alberto Luna",
+  author: "Gustavo Alberto Robles Luna",
   description:
     "Portfolio of Alberto Luna, a Full Stack Developer with expertise in modern, scalable applications.",
   lang: "en",
-  siteLogo: "/alberto-small.jpg",
+  siteLogo: "/foto-web.webp",
   navLinks: [
     { text: "Projects", textEs: "Proyectos", href: "#projects" },
     { text: "Experience", textEs: "Experiencia", href: "#experience" },
     { text: "About", textEs: "Sobre mí", href: "#about" },
   ],
   socialLinks: [
-    { text: "Twitter", href: "https://github.com/immois/astro-zen" },
-    { text: "LinkedIn", href: "https://github.com/immois/astro-zen" },
-    { text: "Github", href: "https://github.com/immois/astro-zen" },
-    { text: "Youtube", href: "https://github.com/immois/astro-zen" },
-    { text: "Dribbble", href: "https://github.com/immois/astro-zen" },
+    { text: "Twitter", href: "https://x.com/LunaNewsX" },
+    { text: "LinkedIn", href: "https://www.linkedin.com/in/alberto-luna-a202b2231/" },
+    { text: "Github", href: "https://github.com/Albert0Luna" },
   ],
-  socialImage: "/zen-og.png",
-  canonicalURL: "https://astro-zen.vercel.app",
+  socialImage: "/",
+  canonicalURL: "/",
 };
 
 export const SITE_CONTENT_EN: SiteContent = {
@@ -30,6 +28,7 @@ export const SITE_CONTENT_EN: SiteContent = {
     summary:
       "Full stack developer with experience in modern, scalable applications, focused on performance, security, and accessibility, with projects in SaaS, e-commerce, and personal sites.",
     email: "albertorl1002@gmail.com",
+    buttonText: "Contact Me",
   },
   projects: [
     {
@@ -59,6 +58,7 @@ export const SITE_CONTENT_EN: SiteContent = {
         "next-intl"
       ],
       linkPreview: "https://www.lunanews.tech/",
+      linkSource: "https://github.com/Albert0Luna/luna-news",
       image: "/luna-news.webp",
     },
     {
@@ -111,7 +111,7 @@ export const SITE_CONTENT_EN: SiteContent = {
     },
   ],
   about: {
-    image: "/alejandro-big.jpg",
+    image: "/foto-web.webp",
   },
 };
 
@@ -122,6 +122,7 @@ export const SITE_CONTENT_ES: SiteContent = {
     summary:
       "Desarrollador full-stack con experiencia en aplicaciones modernas y escalables, enfocado en rendimiento, seguridad y accesibilidad, con proyectos en SaaS, e-commerce y sitios personales.",
     email: "albertorl1002@gmail.com",
+    buttonText: "Contáctame",
   },
   projects: [
     {
@@ -204,6 +205,6 @@ export const SITE_CONTENT_ES: SiteContent = {
     },
   ],
   about: {
-    image: "/alejandro-big.jpg",
+    image: "/foto-web.webp",
   },
 };
