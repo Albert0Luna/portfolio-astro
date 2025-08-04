@@ -57,7 +57,7 @@ export const SITE_CONTENT_EN: SiteContent = {
         "MongoDB",
         "next-intl"
       ],
-      linkPreview: "https://www.lunanews.tech/",
+      linkPreview: "https://luna-news.vercel.app/en",
       linkSource: "https://github.com/Albert0Luna/luna-news",
       image: "/luna-news.webp",
     },
@@ -151,7 +151,7 @@ export const SITE_CONTENT_ES: SiteContent = {
         "MongoDB",
         "next-intl"
       ],
-      linkPreview: "https://www.lunanews.tech/",
+      linkPreview: "https://luna-news.vercel.app/es",
       linkSource: "https://github.com/Albert0Luna/luna-news",
       image: "/luna-news.webp",
     },
