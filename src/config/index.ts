@@ -6,7 +6,7 @@ export const SITE_CONFIG: SiteConfig = {
   description:
     "Portfolio of Alberto Luna, a Full Stack Developer with expertise in modern, scalable applications.",
   lang: "en",
-  siteLogo: "/foto-web.webp",
+  siteLogo: "/profile-photo.webp",
   navLinks: [
     { text: "Projects", textEs: "Proyectos", href: "#projects" },
     { text: "Experience", textEs: "Experiencia", href: "#experience" },
