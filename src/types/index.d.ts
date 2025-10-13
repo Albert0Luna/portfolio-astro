@@ -21,6 +21,7 @@ export interface HeroProps {
   summary: string;
   email: string;
   buttonText: string;
+  projectsButtonText?: string;
 }
 
 export interface ExperienceProps {

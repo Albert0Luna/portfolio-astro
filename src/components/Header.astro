@@ -5,7 +5,7 @@ import type { HeaderProps } from "../types";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 
 const pathname = Astro.url.pathname;
-const lang = pathname.split("/")[1] || "en"; // fallback to 'en'
+const lang = pathname.split("/")[1] || "en";
 type Props = HeaderProps;
 
 const { siteLogo, navLinks } = Astro.props;
@@ -57,7 +57,6 @@ const { siteLogo, navLinks } = Astro.props;
 </header>
 
 <script>
-  // Toggle mobile menu
   const button = document.querySelector("#menu-button");
   const menu = document.querySelector("#main-menu");
   const navItems = document.querySelectorAll("#main-menu > ul > li > a");
@@ -73,7 +72,6 @@ const { siteLogo, navLinks } = Astro.props;
     item?.addEventListener("click", toggleMenu);
   });
 
-  // Update navigation based on scroll position with Intersection Observer
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -95,7 +93,6 @@ const { siteLogo, navLinks } = Astro.props;
     observer.observe(section);
   });
 
-  // Cleanup observer
   document.onvisibilitychange = () => {
     if (document.visibilityState === "hidden") {
       observer.disconnect();

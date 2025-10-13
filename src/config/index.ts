@@ -13,8 +13,7 @@ export const SITE_CONFIG: SiteConfig = {
     { text: "About", textEs: "Sobre mí", href: "#about" },
   ],
   socialLinks: [
-    { text: "Twitter", href: "https://x.com/LunaNewsX" },
-    { text: "LinkedIn", href: "https://www.linkedin.com/in/alberto-luna-a202b2231/" },
+    { text: "LinkedIn", href: "https://www.linkedin.com/in/gustavo-alberto-r-a202b2231/" },
     { text: "Github", href: "https://github.com/Albert0Luna" },
   ],
   socialImage: "/",
@@ -23,18 +22,19 @@ export const SITE_CONFIG: SiteConfig = {
 
 export const SITE_CONTENT_EN: SiteContent = {
   hero: {
-    name: "Alberto Luna",
+    name: "Gustavo Alberto Robles Luna",
     specialty: "Full Stack Developer",
     summary:
-      "Full stack developer with experience in modern, scalable applications, focused on performance, security, and accessibility, with projects in SaaS, e-commerce, and personal sites.",
+      "Passionate full-stack developer specializing in modern web technologies like React, Next.js, and MongoDB. I build scalable, secure, and user-centric applications with a focus on performance, clean code, and exceptional user experiences.",
     email: "albertorl1002@gmail.com",
-    buttonText: "Contact Me",
+    buttonText: "Get In Touch",
+    projectsButtonText: "View Projects",
   },
   projects: [
     {
       name: "Ecliptica",
-      summary: "Full-stack platform for personal income management.",
-      date: "July 2025",
+      summary: "Comprehensive personal finance management platform with real-time income tracking, expense categorization, and data visualization.",
+      date: "March 2025 - Present",
       stack: [
         "React",
         "Next.js",
@@ -48,8 +48,8 @@ export const SITE_CONTENT_EN: SiteContent = {
     },
     {
       name: "Luna News",
-      summary: "Dynamic website focused on programming news and resources.",
-      date: "August 2024",
+      summary: "Multilingual programming news platform with dynamic content delivery, dark mode support, and optimized SEO performance.",
+      date: "August 2024 - June 2025",
       stack: [
         "React",
         "Next.js",
@@ -58,13 +58,12 @@ export const SITE_CONTENT_EN: SiteContent = {
         "next-intl"
       ],
       linkPreview: "https://luna-news.vercel.app/en",
-      linkSource: "https://github.com/Albert0Luna/luna-news",
       image: "/luna-news.webp",
     },
     {
       name: "UniMart",
-      summary: "Online store with search, filters, and cart functionality.",
-      date: "January 2025",
+      summary: "Modern e-commerce platform featuring advanced search, dynamic filtering, and seamless shopping cart experience with responsive design.",
+      date: "December 2024 - January 2025",
       stack: [
         "React",
         "TypeScript",
@@ -83,9 +82,9 @@ export const SITE_CONTENT_EN: SiteContent = {
       startDate: "March 2025",
       endDate: "Present",
       summary: [
-        "Developed a full-stack platform for personal financial management using Next.js as the main framework, focusing on speed, SEO, scalability, and security.",
-        "On the frontend, implemented a responsive interface with Tailwind CSS and shadcn/ui components, incorporating dark mode support. Client-side interactivity and logic were built with React and TypeScript, leveraging Next.js's modern Server Components and Client Components architecture.",
-        "On the backend, utilized Next.js API Routes to handle CRUD operations, authentication, and business logic. Data validation is done with Zod, and input sanitization with DOMPurify, ensuring security against attacks like XSS. ESLint was applied for clean and consistent code, with data stored in MongoDB.",
+        "Architected and developed a full-stack financial management platform using Next.js, prioritizing performance, SEO optimization, scalability, and enterprise-level security.",
+        "Engineered a responsive, accessible frontend with Tailwind CSS and shadcn/ui components, implementing comprehensive dark mode support. Built robust client-side logic with React and TypeScript, leveraging Next.js Server and Client Components for optimal performance.",
+        "Designed and implemented RESTful APIs using Next.js API Routes for CRUD operations, authentication, and business logic. Implemented Zod for schema validation and DOMPurify for XSS protection. Maintained code quality with ESLint and stored data efficiently in MongoDB.",
       ],
     },
     {
@@ -94,9 +93,9 @@ export const SITE_CONTENT_EN: SiteContent = {
       startDate: "August 2024",
       endDate: "June 2025",
       summary: [
-        "Developed a programming news blog using Next.js and MongoDB, with a scalable architecture, multilingual support, and optimization focused on performance and SEO.",
-        "On the frontend, used React and Next.js along with Tailwind CSS, implementing light and dark themes. Thanks to Next.js's Server-Side Rendering (SSR) capabilities, achieved fast loading and excellent search engine indexing. Internationalization was managed with next-intl, allowing content to easily adapt to different languages.",
-        "On the backend, used Next.js API Routes to process requests securely and efficiently. Information is stored in MongoDB, providing flexibility and scalability to handle large volumes of dynamic content."
+        "Developed a scalable programming news platform using Next.js and MongoDB, featuring multilingual support, advanced SEO optimization, and superior performance metrics.",
+        "Built a modern frontend with React, Next.js, and Tailwind CSS, implementing adaptive light/dark themes. Achieved exceptional loading speeds and search engine indexing through Next.js Server-Side Rendering (SSR). Integrated next-intl for seamless internationalization across multiple languages.",
+        "Implemented secure and efficient backend APIs using Next.js API Routes for content management and delivery. Utilized MongoDB for flexible, scalable data storage capable of handling high volumes of dynamic content."
       ],
     },
     {
@@ -105,8 +104,8 @@ export const SITE_CONTENT_EN: SiteContent = {
       startDate: "December 2024",
       endDate: "January 2025",
       summary: [
-        "Digital store with complete search, filter, and shopping cart functionalities, designed to offer a smooth and intuitive user experience on both mobile and desktop devices.",
-        "The interface was built with React and Redux Toolkit, enabling efficient state management and dynamic navigation without reloads. Although everything is currently managed on the client side, the architecture is ready to easily incorporate a backend with Node.js and MongoDB, allowing the project to scale to features like authentication, product management, and data persistence."
+        "Developed a feature-rich e-commerce platform with advanced search, filtering, and shopping cart functionality, delivering smooth, intuitive experiences across mobile and desktop devices.",
+        "Built the interface using React and Redux Toolkit for efficient state management and seamless navigation without page reloads. Designed a scalable architecture ready for backend integration with Node.js and MongoDB, supporting future features like authentication, product management, and persistent data storage."
       ],
     },
   ],
@@ -120,15 +119,16 @@ export const SITE_CONTENT_ES: SiteContent = {
     name: "Alberto Luna",
     specialty: "Desarrollador Full Stack",
     summary:
-      "Desarrollador full-stack con experiencia en aplicaciones modernas y escalables, enfocado en rendimiento, seguridad y accesibilidad, con proyectos en SaaS, e-commerce y sitios personales.",
+      "Desarrollador full-stack apasionado especializado en tecnologías web modernas como React, Next.js y MongoDB. Construyo aplicaciones escalables, seguras y centradas en el usuario con enfoque en rendimiento, código limpio y experiencias excepcionales.",
     email: "albertorl1002@gmail.com",
     buttonText: "Contáctame",
+    projectsButtonText: "Ver Proyectos",
   },
   projects: [
     {
       name: "Ecliptica",
-      summary: "Plataforma full-stack para gestion de ingresos personales.",
-      date: "Julio 2025",
+      summary: "Plataforma integral de gestión financiera personal con seguimiento de ingresos en tiempo real, categorización de gastos y visualización de datos.",
+      date: "Marzo 2025 - Actualidad",
       stack: [
         "React",
         "Next.js",
@@ -142,8 +142,8 @@ export const SITE_CONTENT_ES: SiteContent = {
     },
     {
       name: "Luna News",
-      summary: "Sitio web dinámico enfocado en noticias y recursos sobre programación.",
-      date: "Agosto 2024",
+      summary: "Plataforma multilingüe de noticias de programación con entrega dinámica de contenido, soporte de modo oscuro y rendimiento SEO optimizado.",
+      date: "Agosto 2024 - Junio 2025",
       stack: [
         "React",
         "Next.js",
@@ -152,13 +152,12 @@ export const SITE_CONTENT_ES: SiteContent = {
         "next-intl"
       ],
       linkPreview: "https://luna-news.vercel.app/es",
-      linkSource: "https://github.com/Albert0Luna/luna-news",
       image: "/luna-news.webp",
     },
     {
       name: "UniMart",
-      summary: "Tienda online con busqueda, filtros, carrito",
-      date: "Enero 2025",
+      summary: "Plataforma moderna de e-commerce con búsqueda avanzada, filtrado dinámico y experiencia de carrito fluida con diseño responsivo.",
+      date: "Diciembre 2024 - Enero 2025",
       stack: [
         "React",
         "TypeScript",
@@ -175,11 +174,11 @@ export const SITE_CONTENT_ES: SiteContent = {
       company: "Ecliptica",
       position: "Desarrollador Full-Stack",
       startDate: "Marzo 2025",
-      endDate: "En curso",
+      endDate: "Actualidad",
       summary: [
-        "Desarrollé una plataforma full-stack para la gestión financiera personal utilizando Next.js como framework principal con un enfoque en la velocidad, SEO, escalabilidad y la seguridad.",
-        "En el frontend, implementé una interfaz responsiva con Tailwind CSS y componentes de shadcn/ui, incorporando soporte para modo oscuro. La interactividad y la lógica del cliente se construyeron con React y TypeScript, aprovechando la arquitectura moderna de Server Components y Client Components ofrecida por Next.js.",
-        "En el backend, utilicé las API Routes de Next.js para manejar operaciones CRUD, autenticación y lógica de negocio. La validación de datos se realiza con Zod, y la sanitización de entradas con DOMPurify, garantizando seguridad contra ataques como XSS. Para mantener un código limpio y consistente, se aplicó ESLint, y los datos se almacenan en MongoDB.",
+        "Diseñé y desarrollé una plataforma full-stack de gestión financiera usando Next.js, priorizando rendimiento, optimización SEO, escalabilidad y seguridad de nivel empresarial.",
+        "Desarrollé un frontend responsivo y accesible con Tailwind CSS y componentes shadcn/ui, implementando soporte completo de modo oscuro. Construí lógica robusta del lado del cliente con React y TypeScript, aprovechando Server y Client Components de Next.js para rendimiento óptimo.",
+        "Diseñé e implementé APIs RESTful usando Next.js API Routes para operaciones CRUD, autenticación y lógica de negocio. Implementé Zod para validación de esquemas y DOMPurify para protección XSS. Mantuve la calidad del código con ESLint y almacené datos eficientemente en MongoDB.",
       ],
     },
     {
@@ -188,19 +187,19 @@ export const SITE_CONTENT_ES: SiteContent = {
       startDate: "Agosto 2024",
       endDate: "Junio 2025",
       summary: [
-        "Desarrollé un blog de noticias de programación utilizando Next.js y MongoDB, con una arquitectura escalable, soporte multilenguaje y optimización enfocada en rendimiento y SEO.",
-        "En el frontend, utilicé React y Next.js junto con Tailwind CSS, implementando temas claro y oscuro. Gracias a las capacidades de Server-Side Rendering (SSR) de Next.js, logré una carga rápida y una excelente indexación en motores de búsqueda. La internacionalización fue gestionada mediante next-intl, lo que permite que el contenido se adapte fácilmente a diferentes idiomas.",
-        "En el backend, utilicé las API Routes de Next.js para procesar solicitudes de forma segura y eficiente. La información se almacena en MongoDB, lo que brinda flexibilidad y escalabilidad para manejar grandes volúmenes de contenido dinámico."
+        "Desarrollé una plataforma escalable de noticias de programación usando Next.js y MongoDB, con soporte multilingüe, optimización SEO avanzada y métricas de rendimiento superiores.",
+        "Construí un frontend moderno con React, Next.js y Tailwind CSS, implementando temas adaptativos claro/oscuro. Logré velocidades de carga excepcionales e indexación en motores de búsqueda mediante Server-Side Rendering (SSR) de Next.js. Integré next-intl para internacionalización fluida en múltiples idiomas.",
+        "Implementé APIs backend seguras y eficientes usando Next.js API Routes para gestión y entrega de contenido. Utilicé MongoDB para almacenamiento de datos flexible y escalable, capaz de manejar grandes volúmenes de contenido dinámico."
       ],
     },
     {
       company: "UniMart",
-      position: "Frontend Developer",
+      position: "Desarrollador Frontend",
       startDate: "Diciembre 2024",
       endDate: "Enero 2025",
       summary: [
-        "Tienda digital con funcionalidades completas de búsqueda, filtros y carrito de compras, diseñada para ofrecer una experiencia de usuario fluida e intuitiva tanto en dispositivos móviles como de escritorio.",
-        "La interfaz fue construida con React y Redux Toolkit, lo que permitió un manejo eficiente del estado y una navegación dinámica sin recargas. Aunque actualmente todo se gestiona en el lado del cliente, la arquitectura está preparada para incorporar fácilmente un backend con Node.js y MongoDB, permitiendo escalar el proyecto hacia funcionalidades como autenticación, gestión de productos y persistencia de datos."
+        "Desarrollé una plataforma de e-commerce rica en funcionalidades con búsqueda avanzada, filtrado y carrito de compras, ofreciendo experiencias fluidas e intuitivas en dispositivos móviles y de escritorio.",
+        "Construí la interfaz usando React y Redux Toolkit para gestión eficiente del estado y navegación fluida sin recargas de página. Diseñé una arquitectura escalable lista para integración backend con Node.js y MongoDB, soportando futuras características como autenticación, gestión de productos y almacenamiento persistente de datos."
       ],
     },
   ],
