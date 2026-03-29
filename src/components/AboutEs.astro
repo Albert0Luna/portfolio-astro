@@ -9,33 +9,33 @@ const { image, name } = Astro.props;
 ---
 
 <Section text="About Me" textEs="Sobre mí" href="about">
-  <h3 class="text-2xl md:text-3xl font-bold text-white mb-6 md:mb-8">
+  <h3 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-6 md:mb-8">
     ¡Hola! Soy Gustavo Alberto Robles Luna 👋
   </h3>
   <div
     class="flex flex-col items-center gap-12 md:flex-row md:gap-10 lg:gap-12"
   >
     <div
-      class="w-full text-base text-slate-300 md:pr-6 about-description flex flex-col gap-6"
+      class="w-full text-base text-slate-600 dark:text-slate-300 md:pr-6 about-description flex flex-col gap-6"
     >
       <div class="space-y-6">
         <p class="text-base md:text-lg leading-relaxed text-balance">
           Soy un <span
-            class="font-bold text-blue-400 bg-blue-950/30 px-2 py-0.5 rounded"
+            class="font-bold text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-950/30 px-2 py-0.5 rounded"
             >desarrollador Full-Stack JavaScript</span
           > de 23 años, resido en
-          <span class="font-semibold text-blue-300">Querétaro, México</span>.
-          Estudio <span class="font-semibold text-slate-200"
+          <span class="font-semibold text-blue-700 dark:text-blue-300">Querétaro, México</span>.
+          Estudio <span class="font-semibold text-slate-800 dark:text-slate-200"
             >Ingeniería en Sistemas Computacionales</span
           > (UVEG, promedio 9.0), pero lo que realmente me impulsa es mi pasión por
           la programación.
         </p>
 
         <div
-          class="bg-slate-900/50 border border-slate-800 rounded-lg p-5 md:p-6"
+          class="bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-lg p-5 md:p-6"
         >
           <h4
-            class="text-lg font-bold text-blue-400 mb-4 flex items-center gap-2"
+            class="text-lg font-bold text-blue-600 dark:text-blue-400 mb-4 flex items-center gap-2"
           >
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
               <path
@@ -46,38 +46,38 @@ const { image, name } = Astro.props;
           </h4>
           <ul class="space-y-2.5">
             <li class="flex items-start gap-2">
-              <span class="text-blue-400 mt-1">▪</span>
+              <span class="text-blue-500 dark:text-blue-400 mt-1">▪</span>
               <a
                 href="https://learn.mongodb.com/c/UhARMgERRzyn7bMzcpO_Zw"
                 target="_blank"
-                class="text-blue-300 hover:text-blue-200 underline-offset-2 hover:underline font-medium transition-colors"
+                class="text-blue-600 dark:text-blue-300 hover:text-blue-500 dark:hover:text-blue-200 underline-offset-2 hover:underline font-medium transition-colors"
                 >MongoDB Node.js Developer Path</a
               >
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-blue-400 mt-1">▪</span>
+              <span class="text-blue-500 dark:text-blue-400 mt-1">▪</span>
               <a
                 href="https://www.credly.com/badges/f8049746-611a-4b20-8310-fe3a6c0f9168/public_url"
                 target="_blank"
-                class="text-blue-300 hover:text-blue-200 underline-offset-2 hover:underline font-medium transition-colors"
+                class="text-blue-600 dark:text-blue-300 hover:text-blue-500 dark:hover:text-blue-200 underline-offset-2 hover:underline font-medium transition-colors"
                 >Advanced Schema Design</a
               >
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-blue-400 mt-1">▪</span>
+              <span class="text-blue-500 dark:text-blue-400 mt-1">▪</span>
               <a
                 href="https://www.credly.com/badges/01317c41-b90c-4362-9206-78c357ff36df/public_url"
                 target="_blank"
-                class="text-blue-300 hover:text-blue-200 underline-offset-2 hover:underline font-medium transition-colors"
+                class="text-blue-600 dark:text-blue-300 hover:text-blue-500 dark:hover:text-blue-200 underline-offset-2 hover:underline font-medium transition-colors"
                 >GitHub Foundations</a
               >
             </li>
             <li class="flex items-start gap-2">
-              <span class="text-blue-400 mt-1">▪</span>
+              <span class="text-blue-500 dark:text-blue-400 mt-1">▪</span>
               <a
                 href="https://www.credly.com/badges/7709c02c-2a2c-428e-825b-655874a86f41/public_url"
                 target="_blank"
-                class="text-blue-300 hover:text-blue-200 underline-offset-2 hover:underline font-medium transition-colors"
+                class="text-blue-600 dark:text-blue-300 hover:text-blue-500 dark:hover:text-blue-200 underline-offset-2 hover:underline font-medium transition-colors"
                 >AWS Cloud Practitioner</a
               >
             </li>
@@ -86,26 +86,26 @@ const { image, name } = Astro.props;
 
         <div class="flex items-center gap-3 text-base md:text-lg">
           <span class="text-slate-400">🌐</span>
-          <span class="text-slate-300">Idiomas:</span>
+          <span class="text-slate-600 dark:text-slate-300">Idiomas:</span>
           <span
-            class="font-semibold text-white bg-slate-800 px-3 py-1 rounded-full"
+            class="font-semibold text-slate-800 dark:text-white bg-slate-200 dark:bg-slate-800 px-3 py-1 rounded-full"
             >Español (Nativo)</span
           >
           <span
-            class="font-semibold text-white bg-slate-800 px-3 py-1 rounded-full"
+            class="font-semibold text-slate-800 dark:text-white bg-slate-200 dark:bg-slate-800 px-3 py-1 rounded-full"
             >Inglés (Avanzado)</span
           >
         </div>
 
         <p
-          class="text-base md:text-lg leading-relaxed font-semibold text-green-400 bg-green-950/30 border border-green-900/50 rounded-lg p-4 text-center"
+          class="text-base md:text-lg leading-relaxed font-semibold text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900/50 rounded-lg p-4 text-center"
         >
           ✨ ¡Listo para nuevos desafíos y crear soluciones increíbles!
         </p>
       </div>
     </div>
     <div class="relative h-80 w-64 flex-shrink-0 about-photo">
-      <div class="absolute inset-0 bg-blue-500/20 blur-2xl rounded-lg"></div>
+      <div class="absolute inset-0 bg-blue-500/10 dark:bg-blue-500/20 blur-2xl rounded-lg"></div>
       <div
         class="relative rotate-[5deg] bg-gradient-to-br from-white to-slate-100 p-4 md:rotate-[7deg] shadow-2xl"
       >

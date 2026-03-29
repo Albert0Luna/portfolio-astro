@@ -15,34 +15,34 @@ const {
 <section class="py-24 md:py-32 lg:py-40" id="#hero">
   <div class="relative">
     <div
-      class="absolute -top-20 -left-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl"
+      class="absolute -top-20 -left-20 w-72 h-72 bg-blue-500/10 dark:bg-blue-500/20 rounded-full blur-3xl"
     >
     </div>
     <div
-      class="absolute -bottom-20 -right-20 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"
+      class="absolute -bottom-20 -right-20 w-96 h-96 bg-blue-600/5 dark:bg-blue-600/10 rounded-full blur-3xl"
     >
     </div>
 
     <div class="relative z-10">
       <h1
-        class="mb-3 font-serif text-5xl font-bold tracking-tightest text-white sm:text-7xl md:text-8xl lg:text-9xl animate-[slide-in_0.6s_ease-out]"
+        class="mb-3 font-serif text-5xl font-bold tracking-tightest text-slate-900 dark:text-white sm:text-7xl md:text-8xl lg:text-9xl animate-[slide-in_0.6s_ease-out]"
       >
         {name}
       </h1>
       <p
-        class="mb-6 md:mb-8 font-serif text-2xl leading-tight font-bold tracking-tighter text-blue-400 sm:text-4xl md:text-5xl lg:text-6xl animate-[slide-in_0.7s_ease-out]"
+        class="mb-6 md:mb-8 font-serif text-2xl leading-tight font-bold tracking-tighter text-blue-600 dark:text-blue-400 sm:text-4xl md:text-5xl lg:text-6xl animate-[slide-in_0.7s_ease-out]"
       >
         {specialty}
       </p>
       <p
-        class="mb-8 md:mb-12 text-base md:text-lg lg:text-xl font-normal text-slate-300 leading-relaxed max-w-3xl animate-[slide-in_0.8s_ease-out]"
+        class="mb-8 md:mb-12 text-base md:text-lg lg:text-xl font-normal text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl animate-[slide-in_0.8s_ease-out]"
       >
         {summary}
       </p>
 
       <div class="flex flex-wrap gap-4 animate-[slide-in_0.9s_ease-out]">
         <a
-          class="inline-flex items-center gap-2 rounded-full bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-blue-500/50 transition-all duration-300 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/60 hover:scale-105"
+          class="inline-flex items-center gap-2 rounded-full bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-blue-500/30 transition-all duration-300 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105"
           href={`mailto:${email}`}
         >
           <svg
@@ -62,7 +62,7 @@ const {
         </a>
 
         <a
-          class="inline-flex items-center gap-2 rounded-full border-2 border-slate-700 bg-transparent px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:border-blue-500 hover:bg-blue-500/10 hover:scale-105"
+          class="inline-flex items-center gap-2 rounded-full border-2 border-slate-300 dark:border-slate-700 bg-transparent px-8 py-4 text-base font-semibold text-slate-700 dark:text-white transition-all duration-300 hover:border-blue-500 hover:bg-blue-500/10 hover:scale-105"
           href="#projects"
         >
           <svg
