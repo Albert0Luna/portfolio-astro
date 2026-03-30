@@ -9,11 +9,7 @@ interface Props {
 const { experience } = Astro.props;
 ---
 
-<Section
-  text="Practical Experience"
-  textEs="Experiencia Práctica"
-  href="experience"
->
+<Section text="Projects" textEs="Proyectos" href="experience">
   {
     experience.map(({ company, position, startDate, endDate, summary }) => (
       <div class="mb-10 experience-item">
