@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+MSG_FILE="$1"
+TITLE="$(head -n1 "$MSG_FILE")"
+
+# Enforce Conventional Commits title format (max 72 chars)
+# if ! echo "$TITLE" | grep -qE '^(feat|fix|refactor|perf|docs|test|build|ci|chore)(\([a-z0-9._-]+\))?: .{1,72}$'; then
+#   echo "ERROR: Titulo invalido. Usa Conventional Commits (tipo(scope): resumen) y max 72 chars." >&2
+#   exit 1
+# fi
+
+# # Ensure required sections exist
+# if ! grep -q "^Motivo:" "$MSG_FILE"; then
+#   echo "ERROR: Falta la seccion Motivo en el commit." >&2
+#   exit 1
+# fi
+
+# # Prevent TODO placeholders
+# if grep -q "TODO" "$MSG_FILE"; then
+#   echo "ERROR: Reemplaza TODO en la plantilla antes de hacer commit." >&2
+#   exit 1
+# fi
+
+# # Require ticket reference somewhere in commit body or title
+# if ! grep -qE '[A-Z]+-[0-9]+' "$MSG_FILE"; then
+#   echo "ERROR: Falta referencia de ticket (ej. PROY-123)." >&2
+#   exit 1
+# fi

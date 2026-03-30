@@ -1,0 +1,9 @@
+{
+  "name": "diff-rag",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "index": "node index.js",
+    "serve": "node server.js"
+  }
+}

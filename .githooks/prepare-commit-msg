@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+MSG_FILE="$1"
+SOURCE="${2:-}"
+
+# Skip for merge/squash/commit message reuse
+case "$SOURCE" in
+  merge|squash|commit)
+    exit 0
+    ;;
+esac
+
+# Do not overwrite if template already exists
+if grep -q "^Motivo:" "$MSG_FILE"; then
+  exit 0
+fi
+
+BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)"
+TICKET="$(echo "$BRANCH" | grep -oE '[A-Z]+-[0-9]+' | head -n1 || true)"
+
+REF_LINE="- ${TICKET:-TODO}"
+
+cat >> "$MSG_FILE" <<EOF
+
+Contexto:
+- TODO
+
+Cambios:
+- TODO
+
+Motivo:
+- TODO
+
+Impacto:
+- TODO
+
+Pruebas:
+- TODO
+
+Referencias:
+${REF_LINE}
+EOF

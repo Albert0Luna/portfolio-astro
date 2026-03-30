@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CHANGELOG_FILE="CHANGELOG.md"
+
+if [ ! -f "$CHANGELOG_FILE" ]; then
+  cat > "$CHANGELOG_FILE" <<'EOF'
+# Changelog
+
+Este archivo se genera automaticamente a partir de los commits.
+EOF
+fi
+
+MSG="$(git log -1 --pretty=%B)"
+TITLE="$(printf "%s" "$MSG" | head -n1)"
+DATE="$(date +%Y-%m-%d)"
+TICKET="$(printf "%s" "$MSG" | grep -oE '[A-Z]+-[0-9]+' | head -n1 || true)"
+
+MOTIVO="$(printf "%s" "$MSG" | awk '
+  BEGIN {capture=0}
+  /^Motivo:/ {capture=1; sub(/^Motivo:[[:space:]]*/, ""); if (length($0)>0) print; next}
+  /^[A-Za-z]+:/ {if (capture==1) capture=0}
+  {if (capture==1) print}
+')"
+
+CAMBIOS="$(printf "%s" "$MSG" | awk '
+  BEGIN {capture=0}
+  /^Cambios:/ {capture=1; sub(/^Cambios:[[:space:]]*/, ""); if (length($0)>0) print; next}
+  /^[A-Za-z]+:/ {if (capture==1) capture=0}
+  {if (capture==1) print}
+')"
+
+if [ -z "$MOTIVO" ]; then
+  MOTIVO="No especificado en el commit."
+fi
+
+if [ -z "$CAMBIOS" ]; then
+  CAMBIOS="No especificado en el commit."
+fi
+
+{
+  echo
+  echo "## $DATE - $TITLE"
+  if [ -n "$TICKET" ]; then
+    echo "- Ticket: $TICKET"
+  fi
+  echo "- Motivo:"
+  printf '%s\n' "$MOTIVO" | sed 's/^/- /'
+  echo "- Cambios:"
+  printf '%s\n' "$CAMBIOS" | sed 's/^/- /'
+} >> "$CHANGELOG_FILE"

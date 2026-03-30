@@ -1,0 +1,11 @@
+{
+  "servers": {
+    "diff-rag": {
+      "command": "node",
+      "args": ["tools/rag-mcp/server.js"],
+      "env": {
+        "RAG_API_URL": "http://localhost:8787"
+      }
+    }
+  }
+}
