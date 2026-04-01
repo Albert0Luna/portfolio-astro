@@ -4,7 +4,8 @@
       "command": "node",
       "args": ["tools/rag-mcp/server.js"],
       "env": {
-        "RAG_API_URL": "http://localhost:8787"
+        "RAG_API_URL": "http://localhost:8787",
+        "WORKSPACE_ROOT": "${workspaceFolder}"
       }
     }
   }

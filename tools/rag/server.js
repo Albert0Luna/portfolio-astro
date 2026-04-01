@@ -75,6 +75,9 @@ const server = http.createServer(async (req, res) => {
 
     const scored = index.entries.map((entry) => ({
       score: cosineSimilarity(queryEmbedding, entry.embedding),
+      commitHash: entry.commitHash || "unknown",
+      commitTitle: entry.commitTitle || "",
+      commitDate: entry.commitDate || "",
       file: entry.file,
       content: entry.content
     }));

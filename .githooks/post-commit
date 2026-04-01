@@ -2,6 +2,9 @@
 set -euo pipefail
 
 CHANGELOG_FILE="CHANGELOG.md"
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+RAG_DIFF_FILE="$REPO_ROOT/git.diff"
+RAG_INDEXER="$REPO_ROOT/tools/rag/index.js"
 
 if [ ! -f "$CHANGELOG_FILE" ]; then
   cat > "$CHANGELOG_FILE" <<'EOF'
@@ -49,3 +52,14 @@ fi
   echo "- Cambios:"
   printf '%s\n' "$CAMBIOS" | sed 's/^/- /'
 } >> "$CHANGELOG_FILE"
+
+# Keep RAG index updated for the latest commit diff.
+if [ -f "$RAG_INDEXER" ] && command -v node >/dev/null 2>&1; then
+  if git rev-parse --verify HEAD~1 >/dev/null 2>&1; then
+    git diff HEAD~1..HEAD > "$RAG_DIFF_FILE" || true
+  else
+    git diff HEAD > "$RAG_DIFF_FILE" || true
+  fi
+
+  node "$RAG_INDEXER" || true
+fi
