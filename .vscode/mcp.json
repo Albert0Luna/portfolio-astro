@@ -2,10 +2,14 @@
   "servers": {
     "diff-rag": {
       "command": "node",
-      "args": ["tools/rag-mcp/server.js"],
+      "args": ["../tools/rag-mcp/server.js"],
       "env": {
         "RAG_API_URL": "http://localhost:8787",
-        "WORKSPACE_ROOT": "${workspaceFolder}"
+        "WORKSPACE_ROOT": "${workspaceFolder}",
+        "RAG_INDEX_PATH": "${workspaceFolder}/.rag/index.json",
+        "DIFF_PATH": "${workspaceFolder}/.rag/git.diff",
+        "REPORTS_DIR": "${workspaceFolder}/.rag/reports",
+        "GIT_ROOT": "${workspaceFolder}"
       }
     }
   }
