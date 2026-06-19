@@ -30,6 +30,8 @@ export interface ExperienceProps {
   startDate: string;
   endDate: string;
   summary: string | string[];
+  skills?: string[];
+  link?: string;
 }
 
 export interface ProjectProps {

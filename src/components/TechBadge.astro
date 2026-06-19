@@ -1,0 +1,18 @@
+---
+import { getBadgeStyle } from "../lib/badges";
+
+interface Props {
+  tech: string;
+}
+
+const { tech } = Astro.props;
+---
+
+<span
+  class:list={[
+    "rounded-full px-2.5 py-0.5 text-xs font-medium",
+    getBadgeStyle(tech),
+  ]}
+>
+  {tech}
+</span>

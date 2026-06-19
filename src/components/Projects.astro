@@ -2,6 +2,7 @@
 import { ArrowUpRight, Github } from "@lucide/astro";
 import type { ProjectProps } from "../types";
 import Section from "./Section.astro";
+import TechBadge from "./TechBadge.astro";
 import { Image } from "astro:assets";
 
 interface Props {
@@ -18,7 +19,7 @@ const { projects } = Astro.props;
         ({ name, summary, image, linkPreview, linkSource, stack }, index) => {
           return (
             <div class="project-item sticky mb-12 rounded-2xl border border-slate-200 dark:border-neutral/20 bg-white dark:bg-black">
-              <div class="bg-difu relative z-[1] grid auto w-full grid-rows-2 rounded-2xl bg-slate-50 dark:bg-[#1c232d]/85 before:absolute before:inset-0 before:z-[-1] before:rounded-2xl before:bg-[url(/raja.png)] before:bg-[length:128px] before:bg-repeat before:opacity-[5%] before:content-[''] sm:grid-cols-2 sm:grid-rows-1 md:h-96">
+              <div class="bg-difu relative z-[1] grid auto w-full grid-rows-2 overflow-hidden rounded-2xl bg-slate-50 dark:bg-[#1c232d]/85 sm:grid-cols-2 sm:grid-rows-1 md:h-96">
                 <div class="px-6 pt-12">
                   <div>
                     <h3 class="mb-5 font-serif text-3xl font-medium text-primary">
@@ -26,42 +27,29 @@ const { projects } = Astro.props;
                     </h3>
                   </div>
                   <p class="text-base text-slate-600 dark:text-neutral">{summary}</p>
-                  <div class="mt-5 flex flex-wrap items-center gap-3 text-sm text-slate-600 dark:text-neutral">
+                  <div class="mt-5 flex flex-wrap items-center gap-2">
                     {stack.map((item: string) => (
-                      <span
-                        class={`
-                        ${item === "React" ? "bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" : ""}
-                        ${item === "Next.js" ? "bg-gray-100 text-gray-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-gray-900 dark:text-gray-300" : ""}
-                        ${item === "TypeScript" ? "bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300" : ""}
-                        ${item === "Tailwind CSS" ? "bg-pink-100 text-pink-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-pink-900 dark:text-pink-300" : ""}
-                        ${item === "MongoDB" ? "bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" : ""}
-                        ${item === "Zod" ? "bg-yellow-100 text-yellow-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-yellow-900 dark:text-yellow-300" : ""}
-                        ${item === "Node.js" ? "bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300" : ""}
-                        ${item === "Redux Toolkit" ? "bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-purple-900 dark:text-purple-300" : ""}
-                        ${item === "Vite" ? "bg-orange-100 text-orange-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-orange-900 dark:text-orange-300" : ""}
-                        ${item === "next-intl" ? "bg-indigo-100 text-indigo-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-indigo-900 dark:text-indigo-300" : ""}
-                      `}
-                      >
-                        {item}
-                      </span>
+                      <TechBadge tech={item} />
                     ))}
                   </div>
                   <div class="flex gap-5 py-8 pl-1 text-slate-700 dark:text-white">
                     <a
                       href={linkPreview}
                       target="_blank"
-                      class="after:relative after:bottom-[-5px] after:content-[url(/external.svg)] hover:underline flex gap-1"
+                      rel="noopener noreferrer"
+                      class="flex items-center gap-1 hover:text-primary hover:underline"
                     >
-                      <p>Demo</p>
+                      <span>Demo</span>
                       <ArrowUpRight size={22} />
                     </a>
                     {linkSource && (
                       <a
                         href={linkSource}
                         target="_blank"
-                        class="after:relative after:bottom-[-5px] after:content-[url(/external.svg)] hover:underline flex gap-1"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-1 hover:text-primary hover:underline"
                       >
-                        <p>Source</p>
+                        <span>Source</span>
                         <Github size={20} />
                       </a>
                     )}

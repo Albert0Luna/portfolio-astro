@@ -1,6 +1,7 @@
 ---
 import Menu from "../icons/Menu.astro";
 import { Image } from "astro:assets";
+import { Sun, Moon } from "@lucide/astro";
 import type { HeaderProps } from "../types";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 
@@ -12,9 +13,12 @@ const { siteLogo, navLinks } = Astro.props;
 ---
 
 <header
-  class="sticky top-0 z-50 mx-auto flex max-w-5xl animate-slide-in justify-between bg-white dark:bg-black px-5 py-6 border-b border-transparent dark:border-transparent"
+  class="sticky top-0 z-50 w-full animate-slide-in bg-gradient-to-b from-white via-white/90 to-transparent dark:from-black dark:via-black/90 dark:to-transparent"
 >
-  <a href="/" aria-label="Home link">
+  <div
+    class="relative mx-auto flex max-w-4xl items-center justify-between px-5 pt-6 pb-10"
+  >
+    <a href="/" aria-label="Home link">
     <Image
       class="rounded-full"
       src={siteLogo}
@@ -24,36 +28,49 @@ const { siteLogo, navLinks } = Astro.props;
     />
   </a>
 
-  <button
-    type="button"
-    id="menu-button"
-    class="px-1.5 text-neutral sm:hidden"
-    aria-expanded="false"
-    aria-controls="main-menu"
-  >
-    <Menu />
-  </button>
+  <div class="flex items-center gap-2">
+    <button
+      type="button"
+      id="theme-toggle"
+      class="rounded-lg p-2 text-slate-600 dark:text-neutral transition-colors hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-white/10 dark:hover:text-white"
+      aria-label="Toggle color theme"
+    >
+      <Sun class="hidden h-5 w-5 dark:block" />
+      <Moon class="block h-5 w-5 dark:hidden" />
+    </button>
 
-  <nav
-    class="absolute top-20 right-5 hidden rounded-xl border border-neutral/40 bg-white dark:bg-black px-4 py-5 text-slate-600 dark:text-neutral sm:static sm:block sm:border-0 sm:bg-transparent sm:p-0"
-    id="main-menu"
-  >
-    <ul class="gap-2 sm:flex">
-      {
-        navLinks.map((link) => (
-          <li class="relative">
-            <a
-              class={`nav-item relative block p-2 text-sm font-medium transition-all duration-500 text-slate-600 dark:text-neutral after:absolute after:bottom-0 after:left-2/4 after:h-2 after:w-1 after:-translate-x-2/4 after:text-primary after:opacity-0 after:content-['•'] hover:text-slate-900 dark:hover:text-white`}
-              href={link.href}
-            >
-              {lang === "es" ? link.textEs : link.text}
-            </a>
-          </li>
-        ))
-      }
-      <LanguageSwitcher language={lang} />
-    </ul>
-  </nav>
+    <button
+      type="button"
+      id="menu-button"
+      class="px-1.5 text-slate-600 dark:text-neutral sm:hidden"
+      aria-expanded="false"
+      aria-controls="main-menu"
+    >
+      <Menu />
+    </button>
+
+    <nav
+      class="absolute top-20 right-5 hidden rounded-xl border border-neutral/40 bg-white dark:bg-black px-4 py-5 text-slate-600 dark:text-neutral sm:static sm:block sm:border-0 sm:bg-transparent sm:p-0"
+      id="main-menu"
+    >
+      <ul class="items-center gap-2 sm:flex">
+        {
+          navLinks.map((link) => (
+            <li class="relative">
+              <a
+                class={`nav-item relative block p-2 text-sm font-medium transition-all duration-500 text-slate-600 dark:text-neutral after:absolute after:bottom-0 after:left-2/4 after:h-2 after:w-1 after:-translate-x-2/4 after:text-primary after:opacity-0 after:content-['•'] hover:text-slate-900 dark:hover:text-white`}
+                href={link.href}
+              >
+                {lang === "es" ? link.textEs : link.text}
+              </a>
+            </li>
+          ))
+        }
+        <LanguageSwitcher language={lang} />
+      </ul>
+    </nav>
+  </div>
+  </div>
 </header>
 
 <script>
@@ -70,6 +87,12 @@ const { siteLogo, navLinks } = Astro.props;
   button?.addEventListener("click", toggleMenu);
   navItems.forEach((item) => {
     item?.addEventListener("click", toggleMenu);
+  });
+
+  const themeToggle = document.querySelector("#theme-toggle");
+  themeToggle?.addEventListener("click", () => {
+    const isDark = document.documentElement.classList.toggle("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
   });
 
   const observer = new IntersectionObserver(
@@ -104,9 +127,3 @@ const { siteLogo, navLinks } = Astro.props;
   };
 </script>
 
-<style>
-  header {
-    animation-timeline: scroll();
-    animation-range: 0 650px;
-  }
-</style>
