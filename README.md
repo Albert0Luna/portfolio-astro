@@ -28,7 +28,7 @@ A modern, bilingual (EN/ES) personal portfolio built with **Astro 5** and **Tail
 
 ## 📸 Preview
 
-> Open the [live demo](https://your-domain.com) and toggle the language switcher to see the EN ↔ ES experience.
+> Open the [live demo](https://portfolio-gustavo-luna.appwrite.network/) and toggle the language switcher to see the EN ↔ ES experience.
 
 ---
 
@@ -203,7 +203,7 @@ Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more informa
 
 **Gustavo Alberto Robles Luna** — *Full Stack Developer*
 
-- 🌐 Portfolio: [your-domain.com](https://your-domain.com)
+- 🌐 Portfolio: [https://portfolio-gustavo-luna.appwrite.network/](https://portfolio-gustavo-luna.appwrite.network/)
 - 💼 LinkedIn: [@gustavo-alberto-r](https://www.linkedin.com/in/gustavo-alberto-r-a202b2231/)
 - 🐙 GitHub: [@Albert0Luna](https://github.com/Albert0Luna)
 - 📧 Email: albertorl1002@gmail.com
