@@ -1,0 +1,150 @@
+---
+/**
+ * Animated neural-network background: drifting nodes connected by lines
+ * that subtly react to the cursor. Sits fixed behind all content, adapts
+ * to the active theme and pauses for reduced-motion users and hidden tabs.
+ */
+---
+
+<canvas id="neural-bg" class="fixed inset-0 -z-10 h-full w-full" aria-hidden="true"
+></canvas>
+
+<script>
+  const canvas = document.getElementById("neural-bg") as HTMLCanvasElement;
+  const ctx = canvas.getContext("2d");
+
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  type Node = { x: number; y: number; vx: number; vy: number; r: number };
+
+  let nodes: Node[] = [];
+  let width = 0;
+  let height = 0;
+  let dpr = 1;
+  let rafId = 0;
+  const mouse = { x: -9999, y: -9999 };
+
+  const LINK_DIST = 130;
+  const MOUSE_DIST = 180;
+
+  const isDark = () => document.documentElement.classList.contains("dark");
+
+  const palette = () =>
+    isDark()
+      ? { node: "148, 163, 184", link: "99, 102, 241", mouseLink: "34, 211, 238", alpha: 0.5 }
+      : { node: "100, 116, 139", link: "99, 102, 241", mouseLink: "8, 145, 178", alpha: 0.35 };
+
+  const resize = () => {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    // Density scales with viewport area, capped to stay cheap.
+    const count = Math.min(90, Math.floor((width * height) / 16000));
+    nodes = Array.from({ length: count }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.35,
+      vy: (Math.random() - 0.5) * 0.35,
+      r: Math.random() * 1.6 + 0.6,
+    }));
+  };
+
+  const step = () => {
+    if (!ctx) return;
+    const { node, link, mouseLink, alpha } = palette();
+    ctx.clearRect(0, 0, width, height);
+
+    for (const n of nodes) {
+      n.x += n.vx;
+      n.y += n.vy;
+      if (n.x < 0 || n.x > width) n.vx *= -1;
+      if (n.y < 0 || n.y > height) n.vy *= -1;
+
+      ctx.beginPath();
+      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${node}, ${alpha})`;
+      ctx.fill();
+    }
+
+    for (let i = 0; i < nodes.length; i++) {
+      const a = nodes[i];
+
+      for (let j = i + 1; j < nodes.length; j++) {
+        const b = nodes[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dist = Math.hypot(dx, dy);
+        if (dist < LINK_DIST) {
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(${link}, ${(1 - dist / LINK_DIST) * 0.18})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+
+      // Cursor acts as an extra "neuron" that lights up nearby links.
+      const mdx = a.x - mouse.x;
+      const mdy = a.y - mouse.y;
+      const mdist = Math.hypot(mdx, mdy);
+      if (mdist < MOUSE_DIST) {
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(mouse.x, mouse.y);
+        ctx.strokeStyle = `rgba(${mouseLink}, ${(1 - mdist / MOUSE_DIST) * 0.3})`;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+
+    rafId = requestAnimationFrame(step);
+  };
+
+  const start = () => {
+    cancelAnimationFrame(rafId);
+    if (reducedMotion) {
+      // Draw a single static frame instead of animating.
+      if (ctx) {
+        rafId = requestAnimationFrame(() => {
+          step();
+          cancelAnimationFrame(rafId);
+        });
+      }
+      return;
+    }
+    rafId = requestAnimationFrame(step);
+  };
+
+  resize();
+  start();
+
+  window.addEventListener("resize", () => {
+    resize();
+    if (reducedMotion) start();
+  });
+
+  window.addEventListener("pointermove", (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+
+  window.addEventListener("pointerleave", () => {
+    mouse.x = -9999;
+    mouse.y = -9999;
+  });
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      cancelAnimationFrame(rafId);
+    } else {
+      start();
+    }
+  });
+</script>

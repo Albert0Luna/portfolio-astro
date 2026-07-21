@@ -10,30 +10,55 @@ const {
   buttonText,
   projectsButtonText = "View Projects",
 } = Astro.props;
+
+const pathname = Astro.url.pathname;
+const lang = pathname.split("/")[1] || "en";
+const availability =
+  lang === "es" ? "Disponible para nuevos retos" : "Open to new opportunities";
+
+const typingWords = [
+  "RAG & Embeddings",
+  "Custom MCP Servers",
+  "LLM Agents",
+  "Next.js · React · Node.js",
+  "Fine-tuning Models",
+];
 ---
 
-<section class="py-24 md:py-32 lg:py-40" id="hero">
+<section class="pt-36 pb-24 md:pt-44 md:pb-32 lg:pt-52 lg:pb-40" id="hero">
   <div class="relative">
-    <div
-      class="absolute -top-20 -left-20 w-72 h-72 bg-blue-500/10 dark:bg-blue-500/20 rounded-full blur-3xl"
-    >
-    </div>
-    <div
-      class="absolute -bottom-20 -right-20 w-96 h-96 bg-blue-600/5 dark:bg-blue-600/10 rounded-full blur-3xl"
-    >
-    </div>
-
     <div class="relative z-10">
+      <span
+        class="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 font-mono text-xs text-emerald-700 backdrop-blur dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300 animate-[slide-in_0.5s_ease-out]"
+      >
+        <span class="relative flex h-2 w-2">
+          <span
+            class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"
+          ></span>
+        </span>
+        {availability}
+      </span>
+
       <h1
-        class="mb-3 font-serif text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl md:text-6xl lg:text-7xl animate-[slide-in_0.6s_ease-out]"
+        class="text-gradient-hero mb-3 font-serif text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl animate-[slide-in_0.6s_ease-out]"
       >
         {name}
       </h1>
       <p
-        class="mb-6 md:mb-8 font-serif text-xl leading-tight font-bold tracking-tight text-blue-600 dark:text-blue-400 sm:text-2xl md:text-3xl lg:text-4xl animate-[slide-in_0.7s_ease-out]"
+        class="text-gradient mb-4 font-serif text-xl leading-tight font-bold tracking-tight sm:text-2xl md:text-3xl lg:text-4xl animate-[slide-in_0.7s_ease-out]"
       >
         {specialty}
       </p>
+
+      <p
+        class="caret mb-8 h-6 font-mono text-sm text-slate-500 dark:text-slate-400 animate-[slide-in_0.75s_ease-out]"
+        aria-hidden="true"
+      >
+        <span id="typing-target" data-words={JSON.stringify(typingWords)}
+        ></span>
+      </p>
+
       <p
         class="mb-8 md:mb-12 text-base md:text-lg font-normal text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl animate-[slide-in_0.8s_ease-out]"
       >
@@ -42,7 +67,7 @@ const {
 
       <div class="flex flex-wrap gap-4 animate-[slide-in_0.9s_ease-out]">
         <a
-          class="inline-flex items-center gap-2 rounded-full bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-blue-500/30 transition-all duration-300 hover:bg-blue-700 hover:shadow-xl hover:shadow-blue-500/40 hover:scale-105"
+          class="glow-primary inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:scale-105 hover:from-indigo-500 hover:to-violet-500"
           href={`mailto:${email}`}
         >
           <svg
@@ -62,7 +87,7 @@ const {
         </a>
 
         <a
-          class="inline-flex items-center gap-2 rounded-full border-2 border-slate-300 dark:border-slate-700 bg-transparent px-8 py-4 text-base font-semibold text-slate-700 dark:text-white transition-all duration-300 hover:border-blue-500 hover:bg-blue-500/10 hover:scale-105"
+          class="inline-flex items-center gap-2 rounded-full border border-slate-900/15 bg-white/50 px-8 py-4 text-base font-semibold text-slate-700 backdrop-blur transition-all duration-300 hover:scale-105 hover:border-cyan-500/50 hover:bg-cyan-500/10 dark:border-white/15 dark:bg-white/5 dark:text-white dark:hover:border-cyan-400/50"
           href="#projects"
         >
           <svg
@@ -96,3 +121,48 @@ const {
     }
   }
 </style>
+
+<script>
+  // Terminal-style typing loop over the AI skill keywords.
+  const target = document.getElementById("typing-target");
+  const words: string[] = JSON.parse(target?.dataset.words ?? "[]");
+
+  if (target && words.length > 0) {
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    if (reducedMotion) {
+      target.textContent = words[0];
+    } else {
+      let wordIndex = 0;
+      let charIndex = 0;
+      let deleting = false;
+
+      const tick = () => {
+        const word = words[wordIndex];
+
+        if (!deleting) {
+          charIndex++;
+          target.textContent = word.slice(0, charIndex);
+          if (charIndex === word.length) {
+            deleting = true;
+            setTimeout(tick, 2000);
+            return;
+          }
+          setTimeout(tick, 55 + Math.random() * 45);
+        } else {
+          charIndex--;
+          target.textContent = word.slice(0, charIndex);
+          if (charIndex === 0) {
+            deleting = false;
+            wordIndex = (wordIndex + 1) % words.length;
+          }
+          setTimeout(tick, 28);
+        }
+      };
+
+      tick();
+    }
+  }
+</script>

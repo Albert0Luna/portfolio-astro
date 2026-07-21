@@ -1,9 +1,15 @@
 ---
 import Header from "../components/Header.astro";
 import "@fontsource/be-vietnam-pro";
-import "@fontsource-variable/gabarito";
+import "@fontsource/space-grotesk/500.css";
+import "@fontsource/space-grotesk/600.css";
+import "@fontsource/space-grotesk/700.css";
+import "@fontsource/jetbrains-mono/400.css";
+import "@fontsource/jetbrains-mono/500.css";
 import { SITE_CONFIG } from "../config/index";
 import Footer from "../components/Footer.astro";
+import NeuralBackground from "../components/NeuralBackground.astro";
+import AIChat from "../components/AIChat.astro";
 import "../styles/global.css";
 
 const {
@@ -23,7 +29,7 @@ const ogImgUrl = canonicalURL + socialImage;
 ---
 
 <!doctype html>
-<html lang={lang} class="scroll-pt-16 scroll-smooth">
+<html lang={lang} class="scroll-pt-24 scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -33,14 +39,11 @@ const ogImgUrl = canonicalURL + socialImage;
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
 
-    {/* Set theme before paint to avoid a flash of the wrong color scheme. */}
+    {/* Set theme before paint to avoid a flash of the wrong color scheme.
+        Dark is the default — it's where the design shines. */}
     <script is:inline>
       (() => {
-        const stored = localStorage.getItem("theme");
-        const prefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        ).matches;
-        const theme = stored ?? (prefersDark ? "dark" : "light");
+        const theme = localStorage.getItem("theme") ?? "dark";
         document.documentElement.classList.toggle("dark", theme === "dark");
         localStorage.setItem("theme", theme);
       })();
@@ -57,11 +60,33 @@ const ogImgUrl = canonicalURL + socialImage;
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={ogImgUrl} />
   </head>
-  <body class="font-sans bg-white text-slate-900 dark:bg-black dark:text-white">
+  <body
+    class="font-sans bg-slate-50 text-slate-800 dark:bg-black dark:text-slate-200"
+  >
+    {/* Background stack: neural canvas + blueprint grid + aurora glows. */}
+    <NeuralBackground />
+    <div class="bg-grid pointer-events-none fixed inset-0 -z-10" aria-hidden="true">
+    </div>
+    <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
+      <div
+        class="absolute -top-40 left-1/2 h-[480px] w-[720px] -translate-x-1/2 rounded-full bg-indigo-500/10 blur-[120px] dark:bg-indigo-500/15"
+      >
+      </div>
+      <div
+        class="absolute top-1/3 -left-40 h-96 w-96 rounded-full bg-cyan-500/5 blur-[100px] dark:bg-cyan-500/10"
+      >
+      </div>
+      <div
+        class="absolute -right-40 bottom-0 h-96 w-96 rounded-full bg-purple-500/5 blur-[100px] dark:bg-purple-500/10"
+      >
+      </div>
+    </div>
+
     <Header siteLogo={siteLogo} navLinks={navLinks} />
     <main class="mx-auto max-w-4xl px-5">
       <slot />
     </main>
     <Footer author={author} socialLinks={socialLinks} />
+    <AIChat lang={lang} />
   </body>
 </html>

@@ -1,0 +1,300 @@
+---
+/**
+ * "Luna AI" — floating chat assistant. Streams answers about Gustavo
+ * from /api/chat (Groq · Llama 3.3 70B) with the CV as grounded context.
+ */
+interface Props {
+  lang: string;
+}
+
+const { lang } = Astro.props;
+const es = lang === "es";
+
+const t = {
+  title: "Luna AI",
+  status: es ? "en línea" : "online",
+  subtitle: es ? "Pregúntame sobre Gustavo" : "Ask me about Gustavo",
+  placeholder: es ? "Escribe tu pregunta…" : "Type your question…",
+  greeting: es
+    ? "¡Hola! 👋 Soy Luna AI. Pregúntame lo que quieras sobre la experiencia, proyectos o habilidades de Gustavo."
+    : "Hi! 👋 I'm Luna AI. Ask me anything about Gustavo's experience, projects or skills.",
+  error: es
+    ? "Ahora mismo no puedo responder 😅. Escríbele directo a albertorl1002@gmail.com"
+    : "I can't answer right now 😅. Reach out directly at albertorl1002@gmail.com",
+  open: es ? "Abrir chat de IA" : "Open AI chat",
+  send: es ? "Enviar" : "Send",
+  powered: "Groq · Llama 3.3 70B",
+  suggestions: es
+    ? [
+        "¿Qué experiencia tiene con IA?",
+        "Háblame de sus proyectos",
+        "¿Está disponible para trabajar?",
+      ]
+    : [
+        "What's his AI experience?",
+        "Tell me about his projects",
+        "Is he open to work?",
+      ],
+};
+---
+
+<div id="ai-chat" data-lang={es ? "es" : "en"} data-error={t.error}>
+  {/* Launcher */}
+  <button
+    type="button"
+    id="ai-chat-toggle"
+    aria-label={t.open}
+    aria-expanded="false"
+    aria-controls="ai-chat-panel"
+    class="glow-primary fixed right-5 bottom-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 via-indigo-600 to-violet-600 text-white transition-transform duration-300 hover:scale-110 motion-safe:animate-[float_5s_ease-in-out_infinite]"
+  >
+    <svg
+      class="h-6 w-6 transition-transform duration-300"
+      id="ai-chat-icon"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      viewBox="0 0 24 24"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+      ></path>
+    </svg>
+    <span
+      class="absolute -top-0.5 -right-0.5 flex h-3 w-3"
+      aria-hidden="true"
+    >
+      <span
+        class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+      <span class="relative inline-flex h-3 w-3 rounded-full bg-emerald-500"
+      ></span>
+    </span>
+  </button>
+
+  {/* Panel */}
+  <div
+    id="ai-chat-panel"
+    role="dialog"
+    aria-label={t.title}
+    class="glass-card fixed right-5 bottom-24 z-50 hidden w-[min(24rem,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-3xl!"
+  >
+    <div
+      class="flex items-center gap-3 border-b border-slate-900/10 bg-gradient-to-r from-indigo-600/10 to-violet-600/10 px-4 py-3 dark:border-white/10"
+    >
+      <span
+        class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 to-violet-600 text-white"
+      >
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+          ></path>
+        </svg>
+      </span>
+      <div class="min-w-0 flex-1">
+        <p class="font-serif text-sm font-bold text-slate-900 dark:text-white">
+          {t.title}
+          <span
+            class="ml-2 inline-flex items-center gap-1 font-mono text-[10px] font-normal text-emerald-600 dark:text-emerald-400"
+          >
+            <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500"
+            ></span>
+            {t.status}
+          </span>
+        </p>
+        <p class="truncate text-xs text-slate-500 dark:text-slate-400">
+          {t.subtitle}
+        </p>
+      </div>
+    </div>
+
+    <div
+      id="ai-chat-messages"
+      class="flex h-[min(20rem,45vh)] flex-col gap-3 overflow-y-auto px-4 py-4 text-sm"
+    >
+      <div
+        class="max-w-[85%] self-start rounded-2xl rounded-bl-md border border-slate-900/10 bg-white/70 px-3.5 py-2.5 text-slate-700 dark:border-white/10 dark:bg-white/10 dark:text-slate-200"
+      >
+        {t.greeting}
+      </div>
+      <div id="ai-chat-suggestions" class="flex flex-wrap gap-2">
+        {
+          t.suggestions.map((s) => (
+            <button
+              type="button"
+              class="suggestion-chip rounded-full border border-indigo-500/30 bg-indigo-500/5 px-3 py-1.5 text-left font-mono text-xs text-indigo-700 transition-colors hover:bg-indigo-500/15 dark:border-cyan-400/25 dark:bg-cyan-400/5 dark:text-cyan-300 dark:hover:bg-cyan-400/15"
+            >
+              {s}
+            </button>
+          ))
+        }
+      </div>
+    </div>
+
+    <form
+      id="ai-chat-form"
+      class="flex items-center gap-2 border-t border-slate-900/10 px-3 py-3 dark:border-white/10"
+    >
+      <input
+        id="ai-chat-input"
+        type="text"
+        maxlength="800"
+        autocomplete="off"
+        placeholder={t.placeholder}
+        class="min-w-0 flex-1 rounded-full border border-slate-900/10 bg-white/70 px-4 py-2.5 text-sm text-slate-800 outline-none placeholder:text-slate-400 focus:border-indigo-500/50 dark:border-white/10 dark:bg-white/5 dark:text-white dark:focus:border-cyan-400/50"
+      />
+      <button
+        type="submit"
+        aria-label={t.send}
+        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-violet-600 text-white transition-all hover:scale-105 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M5 12h14m0 0l-6-6m6 6l-6 6"></path>
+        </svg>
+      </button>
+    </form>
+
+    <p
+      class="border-t border-slate-900/5 px-4 py-2 text-center font-mono text-[10px] text-slate-400 dark:border-white/5 dark:text-slate-500"
+    >
+      ⚡ {t.powered}
+    </p>
+  </div>
+</div>
+
+<script>
+  const root = document.getElementById("ai-chat")!;
+  const toggle = document.getElementById("ai-chat-toggle")!;
+  const panel = document.getElementById("ai-chat-panel")!;
+  const messagesEl = document.getElementById("ai-chat-messages")!;
+  const form = document.getElementById("ai-chat-form") as HTMLFormElement;
+  const input = document.getElementById("ai-chat-input") as HTMLInputElement;
+  const sendButton = form.querySelector("button") as HTMLButtonElement;
+  const suggestionsEl = document.getElementById("ai-chat-suggestions");
+
+  const lang = root.dataset.lang ?? "en";
+  const errorText = root.dataset.error ?? "";
+
+  type Message = { role: "user" | "assistant"; content: string };
+  const history: Message[] = [];
+  let busy = false;
+
+  const USER_BUBBLE =
+    "max-w-[85%] self-end rounded-2xl rounded-br-md bg-gradient-to-br from-indigo-600 to-violet-600 px-3.5 py-2.5 text-white";
+  const AI_BUBBLE =
+    "max-w-[85%] self-start rounded-2xl rounded-bl-md border border-slate-900/10 bg-white/70 px-3.5 py-2.5 text-slate-700 dark:border-white/10 dark:bg-white/10 dark:text-slate-200 whitespace-pre-wrap";
+
+  const scrollToBottom = () => {
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  };
+
+  const addBubble = (className: string, text: string) => {
+    const div = document.createElement("div");
+    div.className = className;
+    div.textContent = text;
+    messagesEl.appendChild(div);
+    scrollToBottom();
+    return div;
+  };
+
+  const setOpen = (open: boolean) => {
+    panel.classList.toggle("hidden", !open);
+    panel.classList.toggle("flex", open);
+    toggle.setAttribute("aria-expanded", `${open}`);
+    if (open) input.focus();
+  };
+
+  toggle.addEventListener("click", () =>
+    setOpen(panel.classList.contains("hidden"))
+  );
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setOpen(false);
+  });
+
+  const ask = async (question: string) => {
+    if (busy || !question.trim()) return;
+    busy = true;
+    sendButton.disabled = true;
+    suggestionsEl?.remove();
+
+    addBubble(USER_BUBBLE, question);
+    history.push({ role: "user", content: question });
+
+    // Typing indicator until the first token arrives.
+    const aiBubble = addBubble(AI_BUBBLE, "");
+    aiBubble.innerHTML =
+      '<span class="inline-flex gap-1"><span class="h-1.5 w-1.5 animate-bounce rounded-full bg-current opacity-60"></span><span class="h-1.5 w-1.5 animate-bounce rounded-full bg-current opacity-60 [animation-delay:150ms]"></span><span class="h-1.5 w-1.5 animate-bounce rounded-full bg-current opacity-60 [animation-delay:300ms]"></span></span>';
+
+    // Safety net: if the stream ever stalls (dropped connection, upstream
+    // hang) without erroring, this aborts it so the button doesn't stay
+    // stuck disabled forever.
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: history, lang }),
+        signal: controller.signal,
+      });
+
+      if (!res.ok || !res.body) throw new Error(`status ${res.status}`);
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let answer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        answer += decoder.decode(value, { stream: true });
+        aiBubble.textContent = answer;
+        scrollToBottom();
+      }
+
+      if (!answer) throw new Error("empty response");
+      history.push({ role: "assistant", content: answer });
+    } catch {
+      aiBubble.textContent = errorText;
+    } finally {
+      clearTimeout(timeoutId);
+      busy = false;
+      sendButton.disabled = false;
+      input.focus();
+    }
+  };
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const question = input.value;
+    input.value = "";
+    ask(question);
+  });
+
+  document.querySelectorAll(".suggestion-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      setOpen(true);
+      ask(chip.textContent?.trim() ?? "");
+    });
+  });
+</script>

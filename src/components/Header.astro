@@ -12,64 +12,65 @@ type Props = HeaderProps;
 const { siteLogo, navLinks } = Astro.props;
 ---
 
-<header
-  class="sticky top-0 z-50 w-full animate-slide-in bg-gradient-to-b from-white via-white/90 to-transparent dark:from-black dark:via-black/90 dark:to-transparent"
->
+<header class="fixed inset-x-0 top-4 z-50 animate-slide-in px-4">
   <div
-    class="relative mx-auto flex max-w-4xl items-center justify-between px-5 pt-6 pb-10"
+    class="relative mx-auto flex max-w-4xl items-center justify-between rounded-2xl border border-slate-900/10 bg-white/70 px-4 py-2.5 shadow-lg shadow-indigo-500/5 backdrop-blur-xl dark:border-white/10 dark:bg-white/5 dark:shadow-black/20"
   >
-    <a href="/" aria-label="Home link">
-    <Image
-      class="rounded-full"
-      src={siteLogo}
-      width="45"
-      height="45"
-      alt="website logo"
-    />
-  </a>
+    <a href="/" aria-label="Home link" class="group relative">
+      <span
+        class="absolute -inset-1 rounded-full bg-gradient-to-r from-cyan-400/40 to-violet-500/40 opacity-0 blur transition-opacity duration-300 group-hover:opacity-100"
+        aria-hidden="true"></span>
+      <Image
+        class="relative rounded-full ring-1 ring-slate-900/10 dark:ring-white/20"
+        src={siteLogo}
+        width="40"
+        height="40"
+        alt="website logo"
+      />
+    </a>
 
-  <div class="flex items-center gap-2">
-    <button
-      type="button"
-      id="theme-toggle"
-      class="rounded-lg p-2 text-slate-600 dark:text-neutral transition-colors hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-white/10 dark:hover:text-white"
-      aria-label="Toggle color theme"
-    >
-      <Sun class="hidden h-5 w-5 dark:block" />
-      <Moon class="block h-5 w-5 dark:hidden" />
-    </button>
+    <div class="flex items-center gap-2">
+      <button
+        type="button"
+        id="theme-toggle"
+        class="rounded-lg p-2 text-slate-600 transition-colors hover:bg-slate-900/5 hover:text-slate-900 dark:text-neutral dark:hover:bg-white/10 dark:hover:text-white"
+        aria-label="Toggle color theme"
+      >
+        <Sun class="hidden h-5 w-5 dark:block" />
+        <Moon class="block h-5 w-5 dark:hidden" />
+      </button>
 
-    <button
-      type="button"
-      id="menu-button"
-      class="px-1.5 text-slate-600 dark:text-neutral sm:hidden"
-      aria-expanded="false"
-      aria-controls="main-menu"
-    >
-      <Menu />
-    </button>
+      <button
+        type="button"
+        id="menu-button"
+        class="px-1.5 text-slate-600 dark:text-neutral sm:hidden"
+        aria-expanded="false"
+        aria-controls="main-menu"
+      >
+        <Menu />
+      </button>
 
-    <nav
-      class="absolute top-20 right-5 hidden rounded-xl border border-neutral/40 bg-white dark:bg-black px-4 py-5 text-slate-600 dark:text-neutral sm:static sm:block sm:border-0 sm:bg-transparent sm:p-0"
-      id="main-menu"
-    >
-      <ul class="items-center gap-2 sm:flex">
-        {
-          navLinks.map((link) => (
-            <li class="relative">
-              <a
-                class={`nav-item relative block p-2 text-sm font-medium transition-all duration-500 text-slate-600 dark:text-neutral after:absolute after:bottom-0 after:left-2/4 after:h-2 after:w-1 after:-translate-x-2/4 after:text-primary after:opacity-0 after:content-['•'] hover:text-slate-900 dark:hover:text-white`}
-                href={link.href}
-              >
-                {lang === "es" ? link.textEs : link.text}
-              </a>
-            </li>
-          ))
-        }
-        <LanguageSwitcher language={lang} />
-      </ul>
-    </nav>
-  </div>
+      <nav
+        class="absolute top-16 right-0 hidden rounded-2xl border border-slate-900/10 bg-white/90 px-4 py-5 text-slate-600 backdrop-blur-xl dark:border-white/10 dark:bg-black/80 dark:text-neutral sm:static sm:block sm:border-0 sm:bg-transparent sm:p-0 sm:backdrop-blur-none dark:sm:bg-transparent"
+        id="main-menu"
+      >
+        <ul class="items-center gap-2 sm:flex">
+          {
+            navLinks.map((link) => (
+              <li class="relative">
+                <a
+                  class={`nav-item relative block p-2 text-sm font-medium transition-all duration-500 text-slate-600 dark:text-neutral after:absolute after:bottom-0 after:left-2/4 after:h-2 after:w-1 after:-translate-x-2/4 after:text-accent after:opacity-0 after:content-['•'] hover:text-slate-900 dark:hover:text-white`}
+                  href={link.href}
+                >
+                  {lang === "es" ? link.textEs : link.text}
+                </a>
+              </li>
+            ))
+          }
+          <LanguageSwitcher language={lang} />
+        </ul>
+      </nav>
+    </div>
   </div>
 </header>
 
@@ -101,9 +102,17 @@ const { siteLogo, navLinks } = Astro.props;
         if (entry.isIntersecting) {
           navItems.forEach((item) => {
             if (item.getAttribute("href") === `#${entry.target.id}`) {
-              item.classList.add("text-slate-900", "dark:text-white", "md:after:opacity-100");
+              item.classList.add(
+                "text-slate-900",
+                "dark:text-white",
+                "md:after:opacity-100"
+              );
             } else {
-              item.classList.remove("text-slate-900", "dark:text-white", "md:after:opacity-100");
+              item.classList.remove(
+                "text-slate-900",
+                "dark:text-white",
+                "md:after:opacity-100"
+              );
             }
           });
         }
@@ -126,4 +135,3 @@ const { siteLogo, navLinks } = Astro.props;
     }
   };
 </script>
-

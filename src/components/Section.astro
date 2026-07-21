@@ -3,19 +3,30 @@ interface Props {
   text: string;
   textEs: string;
   href: string;
+  index?: string;
 }
 
-const { text, textEs, href } = Astro.props;
+const { text, textEs, href, index } = Astro.props;
 
 const pathname = Astro.url.pathname;
 const lang = pathname.split("/")[1] || "en"; // fallback to 'en'
 ---
 
 <section id={href} class="py-24">
+  {
+    index && (
+      <span class="eyebrow mb-3 block">
+        {index} · {href}
+      </span>
+    )
+  }
   <h2
-    class="mb-12 font-serif text-3xl font-bold tracking-tight text-slate-900 dark:text-white md:text-4xl"
+    class="mb-12 inline-block font-serif text-3xl font-bold tracking-tight text-slate-900 dark:text-white md:text-4xl"
   >
     {lang === "es" ? textEs : text}
+    <span
+      class="mt-2 block h-px w-full bg-gradient-to-r from-cyan-400/80 via-indigo-500/60 to-transparent"
+      aria-hidden="true"></span>
   </h2>
   <slot />
 </section>
