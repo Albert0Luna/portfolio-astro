@@ -8,19 +8,19 @@ type Props = AboutProps & Pick<HeroProps, "name">;
 const { image, name } = Astro.props;
 ---
 
-<Section text="About Me" textEs="Sobre mí" href="about">
+<Section text="About Me" textEs="Sobre mí" href="about" index="03">
   <!-- Profile header: intro + photo -->
   <div class="grid items-center gap-8 md:grid-cols-[minmax(0,1fr)_280px] lg:gap-12">
     <div class="about-description flex flex-col gap-6">
-      <h3 class="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
+      <h3 class="text-2xl md:text-3xl font-bold font-serif text-slate-900 dark:text-white">
         Hi! I'm Gustavo Luna 👋
       </h3>
       <p class="text-base md:text-lg leading-relaxed text-slate-600 dark:text-slate-300 text-balance">
         I'm a <span
-          class="font-bold text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-950/30 px-2 py-0.5 rounded"
+          class="font-bold text-indigo-600 dark:text-cyan-300 bg-indigo-500/10 dark:bg-cyan-400/10 px-2 py-0.5 rounded"
           >Full-Stack JavaScript developer</span
         > 24 years old, based in <span
-          class="font-semibold text-blue-700 dark:text-blue-300">Querétaro, México</span
+          class="font-semibold text-indigo-700 dark:text-indigo-300">Querétaro, México</span
         >. I recently graduated in <span class="font-semibold text-slate-800 dark:text-slate-200"
           >Computer Systems Engineering</span
         > (UVEG, GPA 9.0), and today I focus my energy on programming and
@@ -33,30 +33,31 @@ const { image, name } = Astro.props;
         <span class="text-slate-400">🌐</span>
         <span class="text-slate-600 dark:text-slate-300">Languages:</span>
         <span
-          class="font-semibold text-slate-800 dark:text-white bg-slate-200 dark:bg-slate-800 px-3 py-1 rounded-full"
+          class="rounded-full border border-slate-900/10 bg-white/60 px-3 py-1 font-mono text-sm font-medium text-slate-700 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-slate-300"
           >Spanish (Native)</span
         >
         <span
-          class="font-semibold text-slate-800 dark:text-white bg-slate-200 dark:bg-slate-800 px-3 py-1 rounded-full"
+          class="rounded-full border border-slate-900/10 bg-white/60 px-3 py-1 font-mono text-sm font-medium text-slate-700 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-slate-300"
           >English (B2)</span
         >
         <span
-          class="font-semibold text-slate-800 dark:text-white bg-slate-200 dark:bg-slate-800 px-3 py-1 rounded-full"
+          class="rounded-full border border-slate-900/10 bg-white/60 px-3 py-1 font-mono text-sm font-medium text-slate-700 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-slate-300"
           >French (A2)</span
         >
       </div>
     </div>
 
-    <div class="about-photo relative mx-auto h-80 w-64 shrink-0">
+    <div class="about-photo relative mx-auto shrink-0">
       <div
-        class="absolute inset-0 bg-blue-500/10 dark:bg-blue-500/20 blur-2xl rounded-lg"
+        class="absolute -inset-4 rounded-3xl bg-gradient-to-br from-cyan-400/20 via-indigo-500/20 to-purple-500/20 blur-2xl"
+        aria-hidden="true"
       >
       </div>
       <div
-        class="relative rotate-[5deg] bg-gradient-to-br from-white to-slate-100 p-4 md:rotate-[6deg] shadow-2xl"
+        class="relative rounded-2xl bg-gradient-to-br from-cyan-400/60 via-indigo-500/60 to-purple-500/60 p-[2px]"
       >
         <Image
-          class="object-cover border-4 border-slate-200 shadow-xl"
+          class="rounded-2xl object-cover"
           src={image}
           width="260"
           height="260"
@@ -68,11 +69,9 @@ const { image, name } = Astro.props;
 
   <!-- Detail cards -->
   <div class="mt-12 grid items-start gap-6 md:grid-cols-2">
-    <div
-      class="bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-lg p-5 md:p-6"
-    >
+    <div class="glass-card p-5 md:p-6">
       <h4
-        class="text-lg font-bold text-blue-600 dark:text-blue-400 mb-4 flex items-center gap-2"
+        class="text-lg font-bold font-serif text-indigo-600 dark:text-cyan-300 mb-4 flex items-center gap-2"
       >
         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
           <path
@@ -83,55 +82,53 @@ const { image, name } = Astro.props;
       </h4>
       <ul class="space-y-2.5">
         <li class="flex items-start gap-2">
-          <span class="text-blue-500 dark:text-blue-400 mt-1">▪</span>
+          <span class="text-cyan-600 dark:text-cyan-400 mt-1">▪</span>
           <span class="text-slate-700 dark:text-slate-300 font-medium"
             >Intermediate SQL — DataCamp</span
           >
         </li>
         <li class="flex items-start gap-2">
-          <span class="text-blue-500 dark:text-blue-400 mt-1">▪</span>
+          <span class="text-cyan-600 dark:text-cyan-400 mt-1">▪</span>
           <a
             href="https://learn.mongodb.com/c/UhARMgERRzyn7bMzcpO_Zw"
             target="_blank"
-            class="text-blue-600 dark:text-blue-300 hover:text-blue-500 dark:hover:text-blue-200 underline-offset-2 hover:underline font-medium transition-colors"
+            class="text-indigo-600 dark:text-indigo-300 hover:text-indigo-500 dark:hover:text-cyan-300 underline-offset-2 hover:underline font-medium transition-colors"
             >MongoDB Node.js Developer Path</a
           >
         </li>
         <li class="flex items-start gap-2">
-          <span class="text-blue-500 dark:text-blue-400 mt-1">▪</span>
+          <span class="text-cyan-600 dark:text-cyan-400 mt-1">▪</span>
           <a
             href="https://www.credly.com/badges/f8049746-611a-4b20-8310-fe3a6c0f9168/public_url"
             target="_blank"
-            class="text-blue-600 dark:text-blue-300 hover:text-blue-500 dark:hover:text-blue-200 underline-offset-2 hover:underline font-medium transition-colors"
+            class="text-indigo-600 dark:text-indigo-300 hover:text-indigo-500 dark:hover:text-cyan-300 underline-offset-2 hover:underline font-medium transition-colors"
             >Advanced Schema Design</a
           >
         </li>
         <li class="flex items-start gap-2">
-          <span class="text-blue-500 dark:text-blue-400 mt-1">▪</span>
+          <span class="text-cyan-600 dark:text-cyan-400 mt-1">▪</span>
           <a
             href="https://www.credly.com/badges/01317c41-b90c-4362-9206-78c357ff36df/public_url"
             target="_blank"
-            class="text-blue-600 dark:text-blue-300 hover:text-blue-500 dark:hover:text-blue-200 underline-offset-2 hover:underline font-medium transition-colors"
+            class="text-indigo-600 dark:text-indigo-300 hover:text-indigo-500 dark:hover:text-cyan-300 underline-offset-2 hover:underline font-medium transition-colors"
             >GitHub Foundations</a
           >
         </li>
         <li class="flex items-start gap-2">
-          <span class="text-blue-500 dark:text-blue-400 mt-1">▪</span>
+          <span class="text-cyan-600 dark:text-cyan-400 mt-1">▪</span>
           <a
             href="https://www.credly.com/badges/7709c02c-2a2c-428e-825b-655874a86f41/public_url"
             target="_blank"
-            class="text-blue-600 dark:text-blue-300 hover:text-blue-500 dark:hover:text-blue-200 underline-offset-2 hover:underline font-medium transition-colors"
+            class="text-indigo-600 dark:text-indigo-300 hover:text-indigo-500 dark:hover:text-cyan-300 underline-offset-2 hover:underline font-medium transition-colors"
             >AWS Cloud Practitioner</a
           >
         </li>
       </ul>
     </div>
 
-    <div
-      class="bg-slate-100 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-lg p-5 md:p-6"
-    >
+    <div class="glass-card p-5 md:p-6">
       <h4
-        class="text-lg font-bold text-blue-600 dark:text-blue-400 mb-3 flex items-center gap-2"
+        class="text-lg font-bold font-serif text-indigo-600 dark:text-cyan-300 mb-3 flex items-center gap-2"
       >
         <svg
           class="w-5 h-5"
@@ -156,19 +153,19 @@ const { image, name } = Astro.props;
       </p>
       <ul class="space-y-2.5">
         <li class="flex items-start gap-2 text-slate-700 dark:text-slate-300">
-          <span class="text-blue-500 dark:text-blue-400 mt-1">▪</span>
+          <span class="text-cyan-600 dark:text-cyan-400 mt-1">▪</span>
           <span><span class="font-semibold">RAG</span> with embeddings</span>
         </li>
         <li class="flex items-start gap-2 text-slate-700 dark:text-slate-300">
-          <span class="text-blue-500 dark:text-blue-400 mt-1">▪</span>
+          <span class="text-cyan-600 dark:text-cyan-400 mt-1">▪</span>
           <span>Custom <span class="font-semibold">MCP</span> servers</span>
         </li>
         <li class="flex items-start gap-2 text-slate-700 dark:text-slate-300">
-          <span class="text-blue-500 dark:text-blue-400 mt-1">▪</span>
+          <span class="text-cyan-600 dark:text-cyan-400 mt-1">▪</span>
           <span><span class="font-semibold">Model training</span> & fine-tuning</span>
         </li>
         <li class="flex items-start gap-2 text-slate-700 dark:text-slate-300">
-          <span class="text-blue-500 dark:text-blue-400 mt-1">▪</span>
+          <span class="text-cyan-600 dark:text-cyan-400 mt-1">▪</span>
           <span><span class="font-semibold">LLM agent</span> orchestration</span>
         </li>
       </ul>
@@ -176,7 +173,7 @@ const { image, name } = Astro.props;
   </div>
 
   <p
-    class="mt-8 text-base md:text-lg leading-relaxed font-semibold text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-900/50 rounded-lg p-4 text-center"
+    class="mt-8 rounded-2xl border border-emerald-500/25 bg-emerald-500/5 p-4 text-center text-base font-semibold leading-relaxed text-emerald-700 backdrop-blur dark:border-emerald-400/20 dark:bg-emerald-400/5 dark:text-emerald-300 md:text-lg"
   >
     ✨ Ready for new challenges and building amazing solutions!
   </p>

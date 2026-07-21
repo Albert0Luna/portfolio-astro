@@ -12,21 +12,28 @@ interface Props {
 const { projects } = Astro.props;
 ---
 
-<Section text="Featured Projects" textEs="Proyectos Destacados" href="projects">
+<Section
+  text="Featured Projects"
+  textEs="Proyectos Destacados"
+  href="projects"
+  index="02"
+>
   <div class="projects-container">
     {
       projects.map(
-        ({ name, summary, image, linkPreview, linkSource, stack }, index) => {
+        ({ name, summary, image, linkPreview, linkSource, stack }) => {
           return (
-            <div class="project-item sticky mb-12 rounded-2xl border border-slate-200 dark:border-neutral/20 bg-white dark:bg-black">
-              <div class="bg-difu relative z-[1] grid auto w-full grid-rows-2 overflow-hidden rounded-2xl bg-slate-50 dark:bg-[#1c232d]/85 sm:grid-cols-2 sm:grid-rows-1 md:h-96">
+            <div class="project-item glass-card group sticky mb-12 overflow-hidden">
+              <div class="relative z-[1] grid w-full grid-rows-2 overflow-hidden rounded-2xl sm:grid-cols-2 sm:grid-rows-1 md:h-96">
                 <div class="px-6 pt-12">
                   <div>
-                    <h3 class="mb-5 font-serif text-3xl font-medium text-primary">
+                    <h3 class="text-gradient mb-5 inline-block font-serif text-3xl font-semibold">
                       {name}
                     </h3>
                   </div>
-                  <p class="text-base text-slate-600 dark:text-neutral">{summary}</p>
+                  <p class="text-base text-slate-600 dark:text-neutral">
+                    {summary}
+                  </p>
                   <div class="mt-5 flex flex-wrap items-center gap-2">
                     {stack.map((item: string) => (
                       <TechBadge tech={item} />
@@ -37,7 +44,7 @@ const { projects } = Astro.props;
                       href={linkPreview}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="flex items-center gap-1 hover:text-primary hover:underline"
+                      class="flex items-center gap-1 transition-colors hover:text-indigo-600 hover:underline dark:hover:text-cyan-300"
                     >
                       <span>Demo</span>
                       <ArrowUpRight size={22} />
@@ -47,7 +54,7 @@ const { projects } = Astro.props;
                         href={linkSource}
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="flex items-center gap-1 hover:text-primary hover:underline"
+                        class="flex items-center gap-1 transition-colors hover:text-indigo-600 hover:underline dark:hover:text-cyan-300"
                       >
                         <span>Source</span>
                         <Github size={20} />
@@ -57,7 +64,7 @@ const { projects } = Astro.props;
                 </div>
                 <div class="flex items-end justify-end overflow-hidden">
                   <Image
-                    class="h-full w-[95%] rounded-ss-xl rounded-ee-2xl object-none object-left-top sm:h-[85%] sm:w-full"
+                    class="h-full w-[95%] rounded-ss-xl rounded-ee-2xl object-none object-left-top ring-1 ring-slate-900/10 transition-transform duration-500 group-hover:scale-[1.03] dark:ring-white/10 sm:h-[85%] sm:w-full"
                     src={image}
                     alt={name}
                     width="736"

@@ -16,13 +16,22 @@ const currentLabel = lang === "es" ? "Actual" : "Current";
 const currentValues = ["Present", "Actualidad"];
 ---
 
-<Section text="Work Experience" textEs="Experiencia Laboral" href="experience">
+<Section
+  text="Work Experience"
+  textEs="Experiencia Laboral"
+  href="experience"
+  index="01"
+>
   {
     experience.map(
       ({ company, position, startDate, endDate, summary, skills, link }) => {
         const isCurrent = currentValues.includes(endDate);
         return (
-          <div class="experience-item relative mb-8 rounded-2xl border border-slate-200 bg-slate-50 p-6 transition-colors dark:border-neutral/20 dark:bg-[#1c232d]/60 md:p-7">
+          <div class="experience-item glass-card relative mb-8 overflow-hidden p-6 md:p-7">
+            <span
+              class="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-cyan-400/60 via-indigo-500/40 to-transparent"
+              aria-hidden="true"
+            />
             <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
               <div>
                 <h3 class="font-serif text-2xl font-semibold text-slate-900 dark:text-white">
@@ -31,27 +40,27 @@ const currentValues = ["Present", "Actualidad"];
                       href={link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      class="group inline-flex items-center gap-1.5 transition-colors hover:text-primary"
+                      class="group inline-flex items-center gap-1.5 transition-colors hover:text-indigo-600 dark:hover:text-cyan-300"
                     >
                       {company}
-                      <ArrowUpRight class="h-5 w-5 text-primary opacity-70 transition-opacity group-hover:opacity-100" />
+                      <ArrowUpRight class="h-5 w-5 text-indigo-500 opacity-70 transition-opacity group-hover:opacity-100 dark:text-cyan-400" />
                     </a>
                   ) : (
                     company
                   )}
                 </h3>
-                <h4 class="font-serif text-xl font-medium text-primary">
+                <h4 class="font-serif text-xl font-medium text-indigo-600 dark:text-indigo-400">
                   {position}
                 </h4>
               </div>
               <div class="flex shrink-0 flex-col items-start gap-1.5 sm:items-end">
                 {isCurrent && (
-                  <span class="inline-flex items-center gap-1.5 rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-700 dark:bg-green-900/40 dark:text-green-300">
-                    <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-green-500" />
+                  <span class="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 font-mono text-xs font-medium text-emerald-700 dark:border-emerald-400/20 dark:text-emerald-300">
+                    <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
                     {currentLabel}
                   </span>
                 )}
-                <span class="text-sm text-slate-500 dark:text-white/70">
+                <span class="font-mono text-xs text-slate-500 dark:text-slate-400">
                   {startDate} — {endDate}
                 </span>
               </div>
@@ -61,7 +70,7 @@ const currentValues = ["Present", "Actualidad"];
               <ul class="mt-4 list-none space-y-3">
                 {summary.map((log) => (
                   <li class="flex items-start gap-3 text-base text-slate-600 dark:text-neutral">
-                    <Check class="mt-1 h-4 w-4 shrink-0 text-primary" />
+                    <Check class="mt-1 h-4 w-4 shrink-0 text-cyan-600 dark:text-cyan-400" />
                     <span>{log}</span>
                   </li>
                 ))}

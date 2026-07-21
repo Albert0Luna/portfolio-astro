@@ -5,12 +5,17 @@
 
 @theme {
   --font-sans: "Be Vietnam Pro", system-ui, sans-serif;
-  --font-serif: "Gabarito Variable", ui-serif, serif;
+  --font-serif: "Space Grotesk", "Gabarito Variable", ui-serif, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --color-primary: #2563eb;
+  /* Neural Elegance palette */
+  --color-primary: #6366f1; /* indigo-500 */
+  --color-accent: #22d3ee; /* cyan-400 */
+  --color-violet-glow: #a855f7; /* purple-500 */
   --color-neutral: #94a3b8;
   --color-white: #e2e8f0;
-  --color-black: #0e141b;
+  --color-black: #05070d; /* deep space */
+  --color-surface: #0a0e1a; /* card base (dark) */
 
   --text-xs: 0.875rem;
   --text-xs--line-height: 1.125rem;
@@ -62,6 +67,135 @@
     border-color 0.3s ease,
     color 0.3s ease;
 }
+
+/* ---------------------------------------------------------------------------
+   Neural Elegance design primitives
+--------------------------------------------------------------------------- */
+
+/* Glass surface used by cards, panels and the chat window. */
+.glass-card {
+  border: 1px solid rgb(15 23 42 / 0.08);
+  border-radius: 1rem;
+  background: rgb(255 255 255 / 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 4px 24px -8px rgb(99 102 241 / 0.08);
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.dark .glass-card {
+  border-color: rgb(255 255 255 / 0.08);
+  background: rgb(255 255 255 / 0.04);
+  box-shadow: 0 4px 24px -8px rgb(0 0 0 / 0.4);
+}
+
+.glass-card:hover {
+  border-color: rgb(99 102 241 / 0.35);
+  box-shadow:
+    0 8px 40px -12px rgb(99 102 241 / 0.25),
+    0 0 0 1px rgb(99 102 241 / 0.06);
+}
+
+.dark .glass-card:hover {
+  border-color: rgb(34 211 238 / 0.25);
+  box-shadow:
+    0 8px 40px -12px rgb(34 211 238 / 0.15),
+    0 0 24px -8px rgb(168 85 247 / 0.15);
+}
+
+/* Signature gradient text: cyan → indigo → violet. */
+.text-gradient {
+  background: linear-gradient(100deg, #22d3ee 0%, #6366f1 50%, #a855f7 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradient-shift 6s ease-in-out infinite alternate;
+}
+
+/* Hero name: near-solid with a subtle metallic sweep. */
+.text-gradient-hero {
+  background: linear-gradient(120deg, #0f172a 30%, #4f46e5 65%, #0f172a 90%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradient-shift 8s ease-in-out infinite alternate;
+}
+
+.dark .text-gradient-hero {
+  background-image: linear-gradient(
+    120deg,
+    #f8fafc 30%,
+    #a5b4fc 55%,
+    #67e8f9 75%,
+    #f8fafc 95%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+/* Mono eyebrow label above section headings: `01 · experience`. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6366f1;
+}
+
+.dark .eyebrow {
+  color: #67e8f9;
+}
+
+/* Soft outer glow for primary CTAs and the chat launcher. */
+.glow-primary {
+  box-shadow:
+    0 8px 32px -8px rgb(99 102 241 / 0.55),
+    0 2px 12px -2px rgb(34 211 238 / 0.3);
+}
+
+.glow-primary:hover {
+  box-shadow:
+    0 12px 48px -8px rgb(99 102 241 / 0.7),
+    0 4px 20px -2px rgb(34 211 238 / 0.45);
+}
+
+/* Faint blueprint grid painted behind the whole page. */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(99 102 241 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(99 102 241 / 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 90% 60% at 50% 0%, black 40%, transparent 100%);
+  -webkit-mask-image: radial-gradient(
+    ellipse 90% 60% at 50% 0%,
+    black 40%,
+    transparent 100%
+  );
+}
+
+.dark .bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(148 163 184 / 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(148 163 184 / 0.05) 1px, transparent 1px);
+}
+
+/* Blinking terminal caret used by the hero typing effect. */
+.caret::after {
+  content: "▌";
+  margin-left: 2px;
+  color: #22d3ee;
+  animation: blink 1.1s steps(2) infinite;
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll-driven reveals (kept from v1, tuned)
+--------------------------------------------------------------------------- */
 
 .project-item {
   animation: reveal linear both;
@@ -126,5 +260,62 @@ h2 {
 
   100% {
     opacity: 1;
+  }
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% center;
+  }
+
+  100% {
+    background-position: 100% center;
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.6;
+    transform: scale(0.9);
+  }
+}
+
+/* Respect users who prefer less motion. */
+@media (prefers-reduced-motion: reduce) {
+  .text-gradient,
+  .text-gradient-hero {
+    animation: none;
+  }
+
+  .caret::after {
+    animation: none;
   }
 }
