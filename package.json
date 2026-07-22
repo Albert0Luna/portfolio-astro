@@ -9,7 +9,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/vercel": "^11.0.3",
+    "@astrojs/node": "^11.0.2",
     "@fontsource-variable/gabarito": "^5.2.6",
     "@fontsource/be-vietnam-pro": "^5.2.6",
     "@fontsource/jetbrains-mono": "^5.2.8",
