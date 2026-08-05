@@ -1,10 +1,18 @@
 import type { APIRoute } from "astro";
+import { setDefaultResultOrder } from "node:dns";
 import { SITE_CONTENT_EN } from "../../config/index";
+import { AI_DEEP_CONTEXT } from "../../config/ai-context";
 
 export const prerender = false;
 
+// Some container/serverless hosts advertise IPv6 without a working outbound
+// route: Node's fetch tries the AAAA record first (Happy Eyeballs), the
+// packet silently vanishes, and the request hangs forever with no error
+// instead of failing fast. Forcing IPv4 first avoids that black hole.
+setDefaultResultOrder("ipv4first");
+
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
-const MODEL = "llama-3.3-70b-versatile";
+const MODEL = "openai/gpt-oss-120b";
 
 const MAX_MESSAGES = 12;
 const MAX_CONTENT_LENGTH = 800;
@@ -54,6 +62,8 @@ ${experienceDigest}
 
 ## Projects
 ${projectsDigest}
+
+${AI_DEEP_CONTEXT}
 
 ## Rules
 - Be warm, concise and professional. 2-4 short sentences per answer unless asked for detail.
@@ -125,7 +135,12 @@ export const POST: APIRoute = async ({ request }) => {
       model: MODEL,
       stream: true,
       temperature: 0.6,
-      max_tokens: 512,
+      // Reasoning tokens are billed against this budget before a single word
+      // of the answer is emitted, so it has to sit well above the ~512 an
+      // answer alone needs. "low" effort keeps latency down: this is grounded
+      // Q&A over a CV, not a problem that rewards deliberation.
+      max_tokens: 1536,
+      reasoning_effort: "low",
       messages: [
         { role: "system", content: buildSystemPrompt(lang) },
         ...messages,
@@ -145,23 +160,51 @@ export const POST: APIRoute = async ({ request }) => {
   const encoder = new TextEncoder();
   const reader = upstream.body.getReader();
 
-  const stream = new ReadableStream({
-    async pull(controller) {
-      const { done, value } = await reader.read();
-      if (done) {
-        controller.close();
-        return;
-      }
+  const emitLine = (
+    controller: ReadableStreamDefaultController<Uint8Array>,
+    line: string
+  ) => {
+    const data = line.replace(/^data: /, "").trim();
+    if (!data || data === "[DONE]") return;
+    try {
+      // Reasoning models also stream a `reasoning` field; only `content` is
+      // the answer, so the model's scratchpad never reaches the visitor.
+      const delta = JSON.parse(data).choices?.[0]?.delta?.content;
+      if (delta) controller.enqueue(encoder.encode(delta));
+    } catch {
+      // A frame that is complete but still unparseable is malformed; skipping
+      // it is correct, unlike skipping a merely-incomplete one.
+    }
+  };
 
-      for (const line of decoder.decode(value, { stream: true }).split("\n")) {
-        const data = line.replace(/^data: /, "").trim();
-        if (!data || data === "[DONE]") continue;
-        try {
-          const delta = JSON.parse(data).choices?.[0]?.delta?.content;
-          if (delta) controller.enqueue(encoder.encode(delta));
-        } catch {
-          // Ignore partial SSE frames split across chunks.
+  // Pumped from start() rather than pull(): a reasoning model emits long runs
+  // of frames that enqueue nothing, and a pull-driven stream stalls on those
+  // instead of reading on.
+  const stream = new ReadableStream({
+    async start(controller) {
+      // Network chunks don't respect SSE frame boundaries: a chunk regularly
+      // ends mid-JSON. Whatever follows the last newline waits here for the
+      // rest of its frame — parsing it eagerly drops those tokens and mangles
+      // the answer mid-word.
+      let buffer = "";
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+
+          buffer += decoder.decode(value, { stream: true });
+
+          const lines = buffer.split("\n");
+          buffer = lines.pop() ?? ""; // keep the trailing partial frame
+          for (const line of lines) emitLine(controller, line);
         }
+
+        // Flush whatever trailing frame the stream ended on.
+        buffer += decoder.decode();
+        if (buffer.trim()) emitLine(controller, buffer);
+      } finally {
+        controller.close();
       }
     },
     cancel() {
