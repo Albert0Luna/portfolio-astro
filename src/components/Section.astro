@@ -1,4 +1,6 @@
 ---
+import { getLang } from "../lib/i18n";
+
 interface Props {
   text: string;
   textEs: string;
@@ -7,9 +9,7 @@ interface Props {
 }
 
 const { text, textEs, href, index } = Astro.props;
-
-const pathname = Astro.url.pathname;
-const lang = pathname.split("/")[1] || "en"; // fallback to 'en'
+const lang = getLang(Astro.currentLocale);
 ---
 
 <section id={href} class="py-24">

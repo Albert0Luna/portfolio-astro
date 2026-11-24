@@ -6,17 +6,23 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check",
+    "test": "node --test tests/**/*.test.ts"
   },
   "dependencies": {
     "@astrojs/node": "^11.0.2",
-    "@fontsource-variable/gabarito": "^5.2.6",
     "@fontsource/be-vietnam-pro": "^5.2.6",
     "@fontsource/jetbrains-mono": "^5.2.8",
     "@fontsource/space-grotesk": "^5.2.10",
     "@lucide/astro": "^1.25.0",
     "@tailwindcss/vite": "^4.1.11",
     "astro": "^7.0.9",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "typescript": "^6.0.3"
   }
 }

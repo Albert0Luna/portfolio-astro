@@ -1,22 +1,35 @@
 ---
 import { getRelativeLocaleUrl } from "astro:i18n";
+import type { Locale } from "../lib/i18n";
+
+interface Props {
+  language: Locale;
+}
 
 const { language } = Astro.props;
-const spanishPage = getRelativeLocaleUrl(language === "en" ? "es" : "en");
+const targetLocale: Locale = language === "en" ? "es" : "en";
+const targetUrl = getRelativeLocaleUrl(targetLocale);
+const currentLabel = language === "en" ? "English" : "Español";
+const targetLabel = language === "en" ? "Español" : "English";
+const ariaLabel = language === "es" ? "Cambiar idioma" : "Switch language";
 ---
 
 <div
-  class="text-white relative flex flex-col items-center justify-center gap-2"
+  id="language-switcher"
+  class="relative flex flex-col items-center justify-center"
 >
   <button
-    id="dropdownDefaultButton"
-    data-dropdown-toggle="dropdown"
-    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm px-4 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+    id="language-switcher-button"
     type="button"
+    aria-label={ariaLabel}
+    aria-haspopup="menu"
+    aria-expanded="false"
+    aria-controls="language-switcher-menu"
+    class="inline-flex items-center gap-2 rounded-xl border border-indigo-500/30 bg-indigo-600/90 px-3.5 py-2 text-xs font-medium text-white transition-colors hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-400/60 dark:border-cyan-400/25 dark:bg-indigo-600/80 dark:hover:bg-indigo-500"
   >
-    {language === "en" ? "English" : "Español"}
+    <span>{currentLabel}</span>
     <svg
-      class="w-2.5 h-2.5 ms-3"
+      class="h-2.5 w-2.5"
       aria-hidden="true"
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -31,32 +44,53 @@ const spanishPage = getRelativeLocaleUrl(language === "en" ? "es" : "en");
     </svg>
   </button>
 
-  <!-- Dropdown menu -->
   <div
-    id="dropdown"
-    class="hidden z-10 bg-white divide-y divide-gray-100 rounded-xl shadow-sm w-auto dark:bg-gray-700 top-11"
+    id="language-switcher-menu"
+    role="menu"
+    class="hidden top-11 right-0 z-10 min-w-full overflow-hidden rounded-xl border border-slate-900/10 bg-white/95 shadow-lg backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/95"
   >
-    <ul class="text-sm text-gray-700 dark:text-gray-200">
-      <li>
-        <a
-          href={spanishPage}
-          class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white rounded-xl"
-        >
-          {language === "en" ? "Español" : "English"}
-        </a>
-      </li>
-    </ul>
+    <a
+      href={targetUrl}
+      role="menuitem"
+      class="block px-4 py-2 text-center text-xs font-medium text-slate-700 transition-colors hover:bg-indigo-500/10 hover:text-indigo-600 dark:text-slate-200 dark:hover:bg-cyan-400/10 dark:hover:text-cyan-300"
+    >
+      {targetLabel}
+    </a>
   </div>
 </div>
 
 <script>
-  const languageSelector = document.getElementById(
-    "dropdownDefaultButton"
-  ) as HTMLButtonElement;
-  const dropdownMenu = document.getElementById("dropdown") as HTMLDivElement;
+  const container = document.getElementById("language-switcher");
+  const trigger = document.getElementById("language-switcher-button");
+  const menu = document.getElementById("language-switcher-menu");
 
-  languageSelector.addEventListener("click", () => {
-    dropdownMenu.classList.toggle("hidden");
-    dropdownMenu.classList.toggle("absolute");
-  });
+  if (container && trigger && menu) {
+    const setOpen = (open: boolean) => {
+      menu.classList.toggle("hidden", !open);
+      menu.classList.toggle("absolute", open);
+      trigger.setAttribute("aria-expanded", `${open}`);
+    };
+
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      setOpen(menu.classList.contains("hidden"));
+    });
+
+    document.addEventListener("click", (e) => {
+      if (
+        !menu.classList.contains("hidden") &&
+        e.target instanceof Node &&
+        !container.contains(e.target)
+      ) {
+        setOpen(false);
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && !menu.classList.contains("hidden")) {
+        setOpen(false);
+        trigger.focus();
+      }
+    });
+  }
 </script>

@@ -1,63 +1,81 @@
 ---
 import Header from "../components/Header.astro";
-import "@fontsource/be-vietnam-pro";
+import "@fontsource/be-vietnam-pro/index.css";
 import "@fontsource/space-grotesk/500.css";
 import "@fontsource/space-grotesk/600.css";
 import "@fontsource/space-grotesk/700.css";
 import "@fontsource/jetbrains-mono/400.css";
 import "@fontsource/jetbrains-mono/500.css";
-import { SITE_CONFIG } from "../config/index";
+import { SITE_CONFIG, SITE_CONTENT_EN } from "../config/index";
 import Footer from "../components/Footer.astro";
 import NeuralBackground from "../components/NeuralBackground.astro";
 import AIChat from "../components/AIChat.astro";
+import { getLang } from "../lib/i18n";
 import "../styles/global.css";
 
 const {
   title,
+  titleEs,
   description,
+  descriptionEs,
   siteLogo,
   navLinks,
   author,
   socialLinks,
   socialImage,
-  canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
 } = SITE_CONFIG;
 
-const pathname = Astro.url.pathname;
-const lang = pathname.split("/")[1] || "en"; // fallback to 'en'
-const ogImgUrl = canonicalURL + socialImage;
+const lang = getLang(Astro.currentLocale);
+const pageTitle = lang === "es" ? titleEs : title;
+const pageDescription = lang === "es" ? descriptionEs : description;
+
+const siteBase = Astro.site ?? Astro.url;
+const canonicalURL = new URL(Astro.url.pathname, siteBase).href;
+const ogImgUrl = new URL(socialImage, siteBase).href;
+const enUrl = new URL("/", siteBase).href;
+const esUrl = new URL("/es/", siteBase).href;
 ---
 
 <!doctype html>
 <html lang={lang} class="scroll-pt-24 scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
+    <meta name="description" content={pageDescription} />
     <meta name="author" content={author} />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="es" href={esUrl} />
+    <link rel="alternate" hreflang="x-default" href={enUrl} />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <title>{pageTitle}</title>
 
     {/* Set theme before paint to avoid a flash of the wrong color scheme.
         Dark is the default — it's where the design shines. */}
     <script is:inline>
       (() => {
-        const theme = localStorage.getItem("theme") ?? "dark";
+        let theme = "dark";
+        try {
+          theme = localStorage.getItem("theme") ?? "dark";
+          localStorage.setItem("theme", theme);
+        } catch {
+          // Storage unavailable (e.g. strict privacy mode); fall back to dark.
+        }
         document.documentElement.classList.toggle("dark", theme === "dark");
-        localStorage.setItem("theme", theme);
       })();
     </script>
 
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:image" content={ogImgUrl} />
 
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={title} />
-    <meta property="twitter:description" content={description} />
+    <meta property="twitter:title" content={pageTitle} />
+    <meta property="twitter:description" content={pageDescription} />
     <meta property="twitter:image" content={ogImgUrl} />
   </head>
   <body
@@ -87,6 +105,6 @@ const ogImgUrl = canonicalURL + socialImage;
       <slot />
     </main>
     <Footer author={author} socialLinks={socialLinks} />
-    <AIChat lang={lang} />
+    <AIChat lang={lang} email={SITE_CONTENT_EN.hero.email} />
   </body>
 </html>

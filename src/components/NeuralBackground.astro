@@ -10,141 +10,178 @@
 ></canvas>
 
 <script>
-  const canvas = document.getElementById("neural-bg") as HTMLCanvasElement;
-  const ctx = canvas.getContext("2d");
-
-  const reducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)"
-  ).matches;
-
-  type Node = { x: number; y: number; vx: number; vy: number; r: number };
-
-  let nodes: Node[] = [];
-  let width = 0;
-  let height = 0;
-  let dpr = 1;
-  let rafId = 0;
-  const mouse = { x: -9999, y: -9999 };
-
-  const LINK_DIST = 130;
-  const MOUSE_DIST = 180;
-
-  const isDark = () => document.documentElement.classList.contains("dark");
-
-  const palette = () =>
-    isDark()
-      ? { node: "148, 163, 184", link: "99, 102, 241", mouseLink: "34, 211, 238", alpha: 0.5 }
-      : { node: "100, 116, 139", link: "99, 102, 241", mouseLink: "8, 145, 178", alpha: 0.35 };
-
-  const resize = () => {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width * dpr;
-    canvas.height = height * dpr;
-    ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    // Density scales with viewport area, capped to stay cheap.
-    const count = Math.min(90, Math.floor((width * height) / 16000));
-    nodes = Array.from({ length: count }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.35,
-      vy: (Math.random() - 0.5) * 0.35,
-      r: Math.random() * 1.6 + 0.6,
-    }));
-  };
-
-  const step = () => {
+  const initNeuralBackground = () => {
+    const canvas = document.getElementById("neural-bg");
+    if (!(canvas instanceof HTMLCanvasElement)) return;
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    const { node, link, mouseLink, alpha } = palette();
-    ctx.clearRect(0, 0, width, height);
 
-    for (const n of nodes) {
-      n.x += n.vx;
-      n.y += n.vy;
-      if (n.x < 0 || n.x > width) n.vx *= -1;
-      if (n.y < 0 || n.y > height) n.vy *= -1;
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
 
-      ctx.beginPath();
-      ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${node}, ${alpha})`;
-      ctx.fill();
-    }
+    type Node = { x: number; y: number; vx: number; vy: number; r: number };
 
-    for (let i = 0; i < nodes.length; i++) {
-      const a = nodes[i];
+    const LINK_DIST = 130;
+    const LINK_DIST_SQ = LINK_DIST * LINK_DIST;
+    const MOUSE_DIST = 180;
+    const MOUSE_DIST_SQ = MOUSE_DIST * MOUSE_DIST;
 
-      for (let j = i + 1; j < nodes.length; j++) {
-        const b = nodes[j];
-        const dx = a.x - b.x;
-        const dy = a.y - b.y;
-        const dist = Math.hypot(dx, dy);
-        if (dist < LINK_DIST) {
+    const DARK_PALETTE = {
+      node: "rgba(148, 163, 184, 0.5)",
+      link: "99, 102, 241",
+      mouseLink: "34, 211, 238",
+    };
+    const LIGHT_PALETTE = {
+      node: "rgba(100, 116, 139, 0.35)",
+      link: "99, 102, 241",
+      mouseLink: "8, 145, 178",
+    };
+
+    let nodes: Node[] = [];
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+    let rafId = 0;
+    let resizeTimer = 0;
+    let currentPalette = document.documentElement.classList.contains("dark")
+      ? DARK_PALETTE
+      : LIGHT_PALETTE;
+    const mouse = { x: -9999, y: -9999 };
+
+    const syncTheme = () => {
+      currentPalette = document.documentElement.classList.contains("dark")
+        ? DARK_PALETTE
+        : LIGHT_PALETTE;
+      if (reducedMotion) {
+        drawFrame(false);
+      }
+    };
+
+    const resize = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      // Density scales with viewport area, capped to stay cheap.
+      const count = Math.min(90, Math.floor((width * height) / 16000));
+      nodes = Array.from({ length: count }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.35,
+        vy: (Math.random() - 0.5) * 0.35,
+        r: Math.random() * 1.6 + 0.6,
+      }));
+    };
+
+    const drawFrame = (advance: boolean) => {
+      const { node, link, mouseLink } = currentPalette;
+      ctx.clearRect(0, 0, width, height);
+
+      ctx.fillStyle = node;
+      for (const n of nodes) {
+        if (advance) {
+          n.x += n.vx;
+          n.y += n.vy;
+          if (n.x < 0 || n.x > width) n.vx *= -1;
+          if (n.y < 0 || n.y > height) n.vy *= -1;
+        }
+
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      ctx.lineWidth = 1;
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const distSq = dx * dx + dy * dy;
+          if (distSq < LINK_DIST_SQ) {
+            const dist = Math.sqrt(distSq);
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.strokeStyle = `rgba(${link}, ${(1 - dist / LINK_DIST) * 0.18})`;
+            ctx.stroke();
+          }
+        }
+
+        // Cursor acts as an extra "neuron" that lights up nearby links.
+        const mdx = a.x - mouse.x;
+        const mdy = a.y - mouse.y;
+        const mdistSq = mdx * mdx + mdy * mdy;
+        if (mdistSq < MOUSE_DIST_SQ) {
+          const mdist = Math.sqrt(mdistSq);
           ctx.beginPath();
           ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.strokeStyle = `rgba(${link}, ${(1 - dist / LINK_DIST) * 0.18})`;
-          ctx.lineWidth = 1;
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.strokeStyle = `rgba(${mouseLink}, ${(1 - mdist / MOUSE_DIST) * 0.3})`;
           ctx.stroke();
         }
       }
+    };
 
-      // Cursor acts as an extra "neuron" that lights up nearby links.
-      const mdx = a.x - mouse.x;
-      const mdy = a.y - mouse.y;
-      const mdist = Math.hypot(mdx, mdy);
-      if (mdist < MOUSE_DIST) {
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(mouse.x, mouse.y);
-        ctx.strokeStyle = `rgba(${mouseLink}, ${(1 - mdist / MOUSE_DIST) * 0.3})`;
-        ctx.lineWidth = 1;
-        ctx.stroke();
-      }
-    }
+    const loop = () => {
+      drawFrame(true);
+      rafId = requestAnimationFrame(loop);
+    };
 
-    rafId = requestAnimationFrame(step);
-  };
-
-  const start = () => {
-    cancelAnimationFrame(rafId);
-    if (reducedMotion) {
-      // Draw a single static frame instead of animating.
-      if (ctx) {
-        rafId = requestAnimationFrame(() => {
-          step();
-          cancelAnimationFrame(rafId);
-        });
-      }
-      return;
-    }
-    rafId = requestAnimationFrame(step);
-  };
-
-  resize();
-  start();
-
-  window.addEventListener("resize", () => {
-    resize();
-    if (reducedMotion) start();
-  });
-
-  window.addEventListener("pointermove", (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-  });
-
-  window.addEventListener("pointerleave", () => {
-    mouse.x = -9999;
-    mouse.y = -9999;
-  });
-
-  document.addEventListener("visibilitychange", () => {
-    if (document.visibilityState === "hidden") {
+    const start = () => {
       cancelAnimationFrame(rafId);
-    } else {
-      start();
+      if (reducedMotion) {
+        drawFrame(false);
+        return;
+      }
+      rafId = requestAnimationFrame(loop);
+    };
+
+    resize();
+    start();
+
+    window.addEventListener("theme-change", syncTheme);
+
+    const themeObserver = new MutationObserver(syncTheme);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    window.addEventListener("resize", () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        resize();
+        if (reducedMotion) drawFrame(false);
+      }, 150);
+    });
+
+    if (!reducedMotion) {
+      window.addEventListener("pointermove", (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+      });
+
+      window.addEventListener("pointerleave", () => {
+        mouse.x = -9999;
+        mouse.y = -9999;
+      });
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") {
+          cancelAnimationFrame(rafId);
+        } else {
+          start();
+        }
+      });
     }
-  });
+  };
+
+  initNeuralBackground();
 </script>

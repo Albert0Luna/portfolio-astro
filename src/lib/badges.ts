@@ -3,6 +3,27 @@
 // only the dot changes color. Strings are full literals so Tailwind's
 // content scanner picks them up at build time.
 const DOT_COLORS: Record<string, string> = {
+  Python: "bg-blue-500",
+  FastAPI: "bg-emerald-400",
+  Django: "bg-green-500",
+  "Django REST Framework": "bg-emerald-500",
+  "SQLAlchemy 2.0": "bg-red-400",
+  Pydantic: "bg-pink-400",
+  Alembic: "bg-amber-400",
+  PostgreSQL: "bg-sky-500",
+  pgvector: "bg-indigo-400",
+  Supabase: "bg-emerald-400",
+  MySQL: "bg-cyan-500",
+  "SQL Server": "bg-rose-400",
+  Docker: "bg-sky-400",
+  "Google Cloud Run": "bg-blue-400",
+  "Vertex AI": "bg-violet-400",
+  pytest: "bg-amber-400",
+  ruff: "bg-purple-400",
+  "GitHub Actions": "bg-slate-400",
+  "WhatsApp Cloud API": "bg-green-400",
+  MCP: "bg-violet-400",
+  "AI Agents": "bg-fuchsia-400",
   React: "bg-sky-400",
   "Next.js": "bg-slate-400",
   TypeScript: "bg-blue-400",
@@ -16,13 +37,7 @@ const DOT_COLORS: Record<string, string> = {
   "next-intl": "bg-indigo-400",
   Laravel: "bg-red-400",
   CodeIgniter: "bg-orange-500",
-  "SQL Server": "bg-rose-400",
-  MySQL: "bg-cyan-500",
-  PostgreSQL: "bg-sky-500",
-  Python: "bg-blue-500",
   SEO: "bg-teal-400",
-  MCP: "bg-violet-400",
-  "AI Agents": "bg-fuchsia-400",
 };
 
 const DEFAULT_DOT = "bg-slate-400";

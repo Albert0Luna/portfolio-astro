@@ -1,0 +1,180 @@
+---
+import { Image } from "astro:assets";
+import type { AboutProps, HeroProps } from "../types";
+import Section from "./Section.astro";
+
+type Props = AboutProps & Pick<HeroProps, "name">;
+
+const {
+  image,
+  name,
+  greetingPrefix,
+  roleHighlight,
+  age,
+  location,
+  degree,
+  educationDetails,
+  bioIntroPrefix,
+  bioAgePrefix,
+  bioAgeLocationConnector,
+  bioEducationPrefix,
+  bioFocusPrefix,
+  bioFocusHighlight,
+  languagesLabel,
+  languages,
+  certificationsTitle,
+  certifications,
+  focusTitle,
+  focusIntroPrefix,
+  focusIntroHighlight,
+  focusIntroSuffix,
+  focusItems,
+  closingCta,
+} = Astro.props;
+---
+
+<Section text="About Me" textEs="Sobre mí" href="about" index="04">
+  <!-- Profile header: intro + photo -->
+  <div class="grid items-center gap-8 md:grid-cols-[minmax(0,1fr)_280px] lg:gap-12">
+    <div class="about-description flex flex-col gap-6">
+      <h3 class="text-2xl md:text-3xl font-bold font-serif text-slate-900 dark:text-white">
+        {greetingPrefix} {name} 👋
+      </h3>
+      <p class="text-base md:text-lg leading-relaxed text-slate-600 dark:text-slate-300 text-balance">
+        {bioIntroPrefix}
+        <span
+          class="font-bold text-indigo-600 dark:text-cyan-300 bg-indigo-500/10 dark:bg-cyan-400/10 px-2 py-0.5 rounded"
+          >{roleHighlight}</span
+        >
+        {bioAgePrefix && `${bioAgePrefix} `}{age} {bioAgeLocationConnector}
+        <span class="font-semibold text-indigo-700 dark:text-indigo-300"
+          >{location}</span
+        >. {bioEducationPrefix}
+        <span class="font-semibold text-slate-800 dark:text-slate-200"
+          >{degree}</span
+        > ({educationDetails}), {bioFocusPrefix}
+        <span class="font-semibold text-slate-800 dark:text-slate-200"
+          >{bioFocusHighlight}</span
+        >.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-3 text-base">
+        <span class="text-slate-400" aria-hidden="true">🌐</span>
+        <span class="text-slate-600 dark:text-slate-300">{languagesLabel}</span>
+        {
+          languages.map((language) => (
+            <span class="rounded-full border border-slate-900/10 bg-white/60 px-3 py-1 font-mono text-sm font-medium text-slate-700 backdrop-blur dark:border-white/10 dark:bg-white/5 dark:text-slate-300">
+              {language}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="about-photo relative mx-auto shrink-0">
+      <div
+        class="absolute -inset-4 rounded-3xl bg-gradient-to-br from-cyan-400/20 via-indigo-500/20 to-purple-500/20 blur-2xl"
+        aria-hidden="true"
+      >
+      </div>
+      <div
+        class="relative rounded-2xl bg-gradient-to-br from-cyan-400/60 via-indigo-500/60 to-purple-500/60 p-[2px]"
+      >
+        <Image
+          class="rounded-2xl object-cover"
+          src={image}
+          width={260}
+          height={260}
+          alt={name}
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- Detail cards -->
+  <div class="mt-12 grid items-start gap-6 md:grid-cols-2">
+    <div class="glass-card p-5 md:p-6">
+      <h4
+        class="text-lg font-bold font-serif text-indigo-600 dark:text-cyan-300 mb-4 flex items-center gap-2"
+      >
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <path
+            d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"
+          ></path>
+        </svg>
+        {certificationsTitle}
+      </h4>
+      <ul class="space-y-2.5">
+        {
+          certifications.map((cert) => (
+            <li class="flex items-start gap-2">
+              <span class="text-cyan-600 dark:text-cyan-400 mt-1" aria-hidden="true">▪</span>
+              {cert.href ? (
+                <a
+                  href={cert.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-indigo-600 dark:text-indigo-300 hover:text-indigo-500 dark:hover:text-cyan-300 underline-offset-2 hover:underline font-medium transition-colors"
+                >
+                  {cert.name}
+                </a>
+              ) : (
+                <span class="text-slate-700 dark:text-slate-300 font-medium">
+                  {cert.name}
+                </span>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="glass-card p-5 md:p-6">
+      <h4
+        class="text-lg font-bold font-serif text-indigo-600 dark:text-cyan-300 mb-3 flex items-center gap-2"
+      >
+        <svg
+          class="w-5 h-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"
+          ></path>
+        </svg>
+        {focusTitle}
+      </h4>
+      <p class="text-base leading-relaxed text-slate-600 dark:text-slate-300 mb-4">
+        {focusIntroPrefix}
+        <span class="font-semibold text-slate-800 dark:text-slate-200"
+          >{focusIntroHighlight}</span
+        >{focusIntroSuffix}
+      </p>
+      <ul class="space-y-2.5">
+        {
+          focusItems.map((item) => (
+            <li class="flex items-start gap-2 text-slate-700 dark:text-slate-300">
+              <span class="text-cyan-600 dark:text-cyan-400 mt-1" aria-hidden="true">▪</span>
+              <span>
+                {item.prefix}
+                <span class="font-semibold">{item.highlight}</span>
+                {item.suffix}
+              </span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <p
+    class="mt-8 rounded-2xl border border-emerald-500/25 bg-emerald-500/5 p-4 text-center text-base font-semibold leading-relaxed text-emerald-700 backdrop-blur dark:border-emerald-400/20 dark:bg-emerald-400/5 dark:text-emerald-300 md:text-lg"
+  >
+    {closingCta}
+  </p>
+</Section>

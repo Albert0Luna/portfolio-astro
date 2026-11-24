@@ -1,97 +1,52 @@
 /**
  * Extra grounding for the "Luna AI" chat assistant (/api/chat).
  *
- * This is deliberately richer than what the site renders: the portfolio shows
- * headlines, this gives the assistant the depth to answer follow-up questions
- * ("what did he actually build?", "what was his role?") without guessing.
- *
- * Kept out of SITE_CONTENT_EN on purpose — nothing here is rendered on the
- * page, and this file is public (it ships in the server bundle), so it must
- * stay free of anything confidential to Gustavo's employers or their vendors.
+ * Kept out of SITE_CONTENT_EN on purpose — nothing here is rendered directly
+ * on the page, and it gives Luna AI deeper technical context without drifting
+ * from the portfolio.
  */
 export const AI_DEEP_CONTEXT = `
-## Deep dive: work at Ciudad Maderas (Jr. Analyst Programmer, Dec 2025 — present)
+## Core Technical Stack (Full-Stack + Backend Python + Applied AI)
+- Frontend & Full-Stack: Next.js, React (18+), TypeScript, JavaScript, Tailwind CSS, Zod, Node.js, Astro.
+- Backend languages & frameworks: Python (3.11+), FastAPI, Django, Django REST Framework (DRF), Node.js, PHP (Laravel, CodeIgniter).
+- APIs & Architecture: RESTful APIs, CRUD operations, modular/hexagonal architecture (Ports & Adapters), Pydantic v2 schema validation, webhooks, WhatsApp Cloud API, JWT HS256, Google Workspace SSO & RBAC.
+- Databases & ORMs: PostgreSQL 15+ (Supabase, pgvector HNSW, pg_trgm GIN, Row Level Security), MySQL, SQL Server, MongoDB, Django ORM, SQLAlchemy 2.0 (AsyncSession + asyncpg), Alembic, Databricks (Genie / Text-to-SQL), complex SQL (JOINs, indexes, views, stored procedures).
+- Quality, Testing & VCS: 820+ automated tests with pytest (pytest-asyncio, pytest-cov), ruff, mypy --strict, import-linter, Git, Pull Request reviews, GitHub Actions CI/CD.
+- Containers & Cloud: Docker, Docker Compose, Google Cloud Platform (Cloud Run, Cloud Storage, Vertex AI), AWS (Certified Cloud Practitioner).
+- Applied AI: production conversational agents, RAG pipelines, custom MCP (Model Context Protocol) servers, OpenCode/Claude Code agent workflows, deterministic + LLM hybrid guardrails, technical auditing of AI-assisted code.
 
-### 1. GRAL — automated documentation platform (own initiative, in production)
-Gustavo designed and built GRAL ("Generador y Registro Automático de Logs"), an
-internal platform that fully automates technical documentation for the software
-development area. He took it end to end on his own: architecture, backend,
-frontend, database, CLI tooling and the AI-agent integration.
+## Deep dive: Sr. Analyst Programmer at Ciudad Maderas (Oct 2026 — present)
 
-- It was NOT an assigned ticket. He identified the problem himself and proposed
-  the solution: documenting changes was manual work competing with development,
-  so in practice it never got done. That left three recurring costs — nobody
-  remembered why past decisions were made, knowledge stayed trapped with
-  whoever wrote the code, and every new team member started blind.
-- How it works: the developer finishes a change and asks for it in a single
-  command ("document this commit" / "document this branch"). The system
-  generates the document, creates the card in the internal tracker (Dashboard
-  Maderas) with the code attached, assigns the responsible people, and files it
-  in a searchable repository.
-- Impact: documenting a change properly used to take up to an hour. With GRAL
-  it takes under 5 minutes, including changelog, code and other parameters,
-  generated automatically.
-- Stack: OpenCode as the LLM runtime, Node.js for the custom MCP server, and
-  agents defined in markdown.
-- Tooling: Claude Code and OpenCode.
-- He proposed and justified adopting OpenCode over GitHub Copilot for this
-  workflow: cheaper to operate, easier to build MCP servers against, and better
-  results for the use case.
+### 1. AgenteCM — Hexagonal Backend Architecture, Cloud Run & Performance
+- Led the architecture and evolution of the corporate AI conversational agent in Python (FastAPI) into a modular monolith with Hexagonal Architecture: reduced the main entrypoint from 2,294 lines down to 219 lines and split the chat engine into 25 focused files across domain, application, and adapter layers, automating 19 sales and after-sales business areas with direct CRM integration.
+- Containerized dev and production environments with Docker & Docker Compose and migrated embeddings to Vertex AI (gemini-embedding-001) on Google Cloud Run — doubling document search accuracy from 46% to 92% and shrinking production Docker image size by 76% (2.6 GB → 637 MB).
+- Led technical QA & validation of a Text-to-SQL AI agent in Databricks Genie connected to SQL Server to verify financial reports (> $200M MXN), and optimized MySQL & SQL Server queries (~88 → 36 queries/turn), lowering median latency from ~10 s to ~5–6 s per message.
+- Implemented Google Workspace SSO & role-based access control, a 605-test pytest suite (in-memory SQLite), GitHub Actions CI/CD (import-linter, ruff), and a 96-scenario evaluation battery achieving 92/96 passing.
 
-### 2. Full redesign of Dashboard Maderas
-Dashboard Maderas is the internal tracking platform used by the development
-team. Gustavo redesigned it completely — views, logos, typography and color
-palette — not a reskin.
+## Deep dive: Jr. Analyst Programmer at Ciudad Maderas (Dec 2025 — Oct 2026)
 
-- Why: while building GRAL (which integrates directly into this dashboard) he
-  realised the existing design was outdated and needed to be reworked, both for
-  UX/UI quality and to properly accommodate the new agent-driven functionality.
-- Stack: React, Laravel.
-- Tooling: Claude Code, OpenCode, and Figma via MCP integration.
+### 2. Full-Stack Internal Modules, SQL & GRAL (MCP Documentation Workflow)
+- Built and maintained internal web modules, REST APIs, and CRUD workflows across React, PHP (Laravel, CodeIgniter), Python, SQL Server, and MySQL.
+- Designed and built GRAL, an automated Pull Request & technical documentation workflow powered by custom Node.js MCP servers and agents (OpenCode / Claude Code) that reduced PR documentation time by 92% (from up to ~1 hour to under 5 minutes), and trained teammates on AI-assisted code validation.
+- Also led the full UX/UI redesign of the internal tracking dashboard (React + Laravel).
 
-### 3. QA / UAT of an AI data agent (Databricks)
-Gustavo ran the validation and quality-control process for an AI agent built by
-an external consultancy on Databricks, which lets business users query a client
-portfolio in natural language.
+## Deep dive: Featured Project & National Award
 
-- This went well beyond "asking the chatbot some questions". He first learned
-  the full architecture — how the data originates, how it is transformed in SQL
-  Server views, and how it lands in the Databricks tables the agent queries.
-- With that understanding he designed a structured acceptance-test battery:
-  deliberately built cases targeting the classic weak points of an AI agent over
-  business data — misleading column names, date ambiguity, client homonyms,
-  text values that look like nulls, and business traps such as commercial names
-  that map to several internal keys.
-- Every result was documented with its verification SQL against the source, so
-  each finding was backed by reproducible evidence rather than opinion. This
-  surfaced real, high-impact defects: non-deterministic results (the same
-  question returning different figures across runs), confusion between two
-  distinct address concepts, and improper mixing of business lines that must be
-  reported separately.
-- Once he had the technical schema, he traced root causes a level deeper and
-  showed that many errors came from the data model itself — columns whose names
-  did not match their contents, missing business definitions, and a timing gap
-  between the data-refresh process and the snapshot the agent read from.
-- He also traced an incorrect vendor diagnosis through undocumented legacy
-  stored procedures in SQL Server, pinpointed the exact step where the value was
-  computed, and demonstrated with concrete queries and figures where the
-  analysis was wrong. That produced formal documentation (an inventory of the
-  procedures, tables and functions involved) now used as shared technical
-  reference.
-- Notably, he corrected several of his own hypotheses mid-process when the
-  evidence did not support them, rather than forcing a conclusion.
-- Impact: prevented an AI agent reporting incorrect and inconsistent portfolio
-  figures from reaching production, where it would have driven real financial
-  decisions (collections prioritisation, risk assessment, figures presented to
-  management). The deliverables — a reusable test battery, prioritised findings,
-  and a clear remediation guide — are work that would normally fall to a
-  dedicated AI-systems QA specialist or a data engineer.
+### 3. Eclíptica — Full-Stack Personal Finance Web Platform (Featured Project)
+- Built end-to-end with Next.js, React, TypeScript, Tailwind CSS, and Zod on the frontend and a PostgreSQL relational backend with RESTful endpoints, secure authentication, strict data validation, and CRUD workflows for transactions, budgets, and real-time analytics.
+- Demo: https://ecliptica.appwrite.network/
+
+### 4. Cuenta Conmigo — 🏆 1st Place National INNOVA + SOCIAL 2026 (Award / Recognition)
+- Awarded 1st Place nationwide by Fundación Aliat (Mexico City, November 3, 2026) in the University Edition of the National Social Innovation Contest (INNOVA + SOCIAL 2026).
+- Role: Lead Architect & Full-Stack / Python AI Developer.
+- Hexagonal Architecture (Ports & Adapters) in Python 3.11+ (mypy --strict), FastAPI, SQLAlchemy 2.0 (AsyncSession + asyncpg), Pydantic v2, and Alembic migrations, with Meta WhatsApp Cloud API webhooks (/webhook/whatsapp) and JWT HS256 admin API (/api/v1/admin/*).
+- Pure Python Decimal (ROUND_HALF_UP) deterministic financial engine (zero arithmetic hallucinations) computing Debt-to-Income (DTI), risk traffic-light scoring, and French amortization, plus E.164 phone anonymization via HMAC-SHA256 (phone_hash).
+- PostgreSQL 15+ (Supabase) with Row Level Security (RLS), fuzzy trigram search (pg_trgm GIN) over CONDUSEF SIPRES, vector search (pgvector 768 dims HNSW + Vertex AI gemini-embedding-001), and Banxico SIE reference rates (httpx).
+- 217 automated pytest tests, auditable RAG trace log (traza_interacciones_rag), and a React 18 + TypeScript + Tailwind CSS + Zod admin backoffice containerized with Docker Compose for Google Cloud Run.
 
 ## How to talk about this
-- These are real, verifiable pieces of work. Describe them concretely; never
-  inflate them, and never invent numbers, dates or clients beyond what is here.
-- If asked to compare his projects, note that the portfolio's featured projects
-  (Luna News, UniMart, Ecliptica) are personal/freelance products, while the
-  work above is internal company work — different in kind, not simply "bigger"
-  or "smaller".
+- Present Gustavo as a versatile Full-Stack & AI Engineer strong in BOTH frontend/full-stack (Next.js, React, TypeScript, Node.js) AND backend/AI (Python, FastAPI, Django, PostgreSQL, Docker, Cloud Run, RAG, MCP).
+- Note that Gustavo speaks Spanish (native) and English (B2); do NOT mention French.
+- If asked about featured projects, highlight Eclíptica (full-stack web platform) and mention Cuenta Conmigo as his award-winning 1st Place National INNOVA + SOCIAL 2026 system.
+- Never invent numbers, employers, dates, or credentials beyond what is listed above.
 `.trim();

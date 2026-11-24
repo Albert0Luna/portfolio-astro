@@ -1,6 +1,7 @@
 ---
 import { Check, ArrowUpRight } from "@lucide/astro";
 import type { ExperienceProps } from "../types";
+import { getLang } from "../lib/i18n";
 import Section from "./Section.astro";
 import TechBadge from "./TechBadge.astro";
 
@@ -10,8 +11,7 @@ interface Props {
 
 const { experience } = Astro.props;
 
-const pathname = Astro.url.pathname;
-const lang = pathname.split("/")[1] || "en";
+const lang = getLang(Astro.currentLocale);
 const currentLabel = lang === "es" ? "Actual" : "Current";
 const currentValues = ["Present", "Actualidad"];
 ---

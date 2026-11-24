@@ -1,5 +1,7 @@
 ---
 import type { HeroProps } from "../types/index";
+import { getLang } from "../lib/i18n";
+
 type Props = HeroProps;
 
 const {
@@ -11,27 +13,37 @@ const {
   projectsButtonText = "View Projects",
 } = Astro.props;
 
-const pathname = Astro.url.pathname;
-const lang = pathname.split("/")[1] || "en";
+const lang = getLang(Astro.currentLocale);
 const availability =
   lang === "es" ? "Disponible para nuevos retos" : "Open to new opportunities";
 
-const typingWords = [
-  "RAG & Embeddings",
-  "Custom MCP Servers",
-  "LLM Agents",
-  "Next.js · React · Node.js",
-  "Fine-tuning Models",
-];
+const typingWords =
+  lang === "es"
+    ? [
+        "Next.js · React · TypeScript",
+        "Python · FastAPI · Django",
+        "Arquitectura Hexagonal",
+        "PostgreSQL y pgvector",
+        "RAG y Servidores MCP",
+        "Docker · Cloud Run · pytest",
+      ]
+    : [
+        "Next.js · React · TypeScript",
+        "Python · FastAPI · Django",
+        "Hexagonal Architecture",
+        "PostgreSQL & pgvector",
+        "RAG & MCP Servers",
+        "Docker · Cloud Run · pytest",
+      ];
 ---
 
 <section class="pt-36 pb-24 md:pt-44 md:pb-32 lg:pt-52 lg:pb-40" id="hero">
   <div class="relative">
     <div class="relative z-10">
       <span
-        class="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 font-mono text-xs text-emerald-700 backdrop-blur dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300 animate-[slide-in_0.5s_ease-out]"
+        class="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 font-mono text-xs text-emerald-700 backdrop-blur dark:border-emerald-400/20 dark:bg-emerald-400/10 dark:text-emerald-300 motion-safe:animate-[slide-in_0.5s_ease-out]"
       >
-        <span class="relative flex h-2 w-2">
+        <span class="relative flex h-2 w-2" aria-hidden="true">
           <span
             class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
           <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"
@@ -41,18 +53,18 @@ const typingWords = [
       </span>
 
       <h1
-        class="text-gradient-hero mb-3 font-serif text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl animate-[slide-in_0.6s_ease-out]"
+        class="text-gradient-hero mb-3 font-serif text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl lg:text-8xl motion-safe:animate-[slide-in_0.6s_ease-out]"
       >
         {name}
       </h1>
       <p
-        class="text-gradient mb-4 font-serif text-xl leading-tight font-bold tracking-tight sm:text-2xl md:text-3xl lg:text-4xl animate-[slide-in_0.7s_ease-out]"
+        class="text-gradient mb-4 font-serif text-xl leading-tight font-bold tracking-tight sm:text-2xl md:text-3xl lg:text-4xl motion-safe:animate-[slide-in_0.7s_ease-out]"
       >
         {specialty}
       </p>
 
       <p
-        class="caret mb-8 h-6 font-mono text-sm text-slate-500 dark:text-slate-400 animate-[slide-in_0.75s_ease-out]"
+        class="caret mb-8 h-6 font-mono text-sm text-slate-500 dark:text-slate-400 motion-safe:animate-[slide-in_0.75s_ease-out]"
         aria-hidden="true"
       >
         <span id="typing-target" data-words={JSON.stringify(typingWords)}
@@ -60,12 +72,12 @@ const typingWords = [
       </p>
 
       <p
-        class="mb-8 md:mb-12 text-base md:text-lg font-normal text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl animate-[slide-in_0.8s_ease-out]"
+        class="mb-8 md:mb-12 text-base md:text-lg font-normal text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl motion-safe:animate-[slide-in_0.8s_ease-out]"
       >
         {summary}
       </p>
 
-      <div class="flex flex-wrap gap-4 animate-[slide-in_0.9s_ease-out]">
+      <div class="flex flex-wrap gap-4 motion-safe:animate-[slide-in_0.9s_ease-out]">
         <a
           class="glow-primary inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-indigo-600 to-violet-600 px-8 py-4 text-base font-semibold text-white transition-all duration-300 hover:scale-105 hover:from-indigo-500 hover:to-violet-500"
           href={`mailto:${email}`}
@@ -75,6 +87,7 @@ const typingWords = [
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <path
               stroke-linecap="round"
@@ -95,6 +108,7 @@ const typingWords = [
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <path
               stroke-linecap="round"
@@ -109,23 +123,18 @@ const typingWords = [
   </div>
 </section>
 
-<style>
-  @keyframes slide-in {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-</style>
-
 <script>
   // Terminal-style typing loop over the AI skill keywords.
   const target = document.getElementById("typing-target");
-  const words: string[] = JSON.parse(target?.dataset.words ?? "[]");
+  let words: string[] = [];
+  try {
+    const parsed: unknown = JSON.parse(target?.dataset.words ?? "[]");
+    if (Array.isArray(parsed)) {
+      words = parsed.filter((item): item is string => typeof item === "string");
+    }
+  } catch {
+    words = [];
+  }
 
   if (target && words.length > 0) {
     const reducedMotion = window.matchMedia(
@@ -138,8 +147,15 @@ const typingWords = [
       let wordIndex = 0;
       let charIndex = 0;
       let deleting = false;
+      let timerId = 0;
+
+      const schedule = (delayMs: number) => {
+        window.clearTimeout(timerId);
+        timerId = window.setTimeout(tick, delayMs);
+      };
 
       const tick = () => {
+        if (document.visibilityState === "hidden") return;
         const word = words[wordIndex];
 
         if (!deleting) {
@@ -147,10 +163,10 @@ const typingWords = [
           target.textContent = word.slice(0, charIndex);
           if (charIndex === word.length) {
             deleting = true;
-            setTimeout(tick, 2000);
+            schedule(2000);
             return;
           }
-          setTimeout(tick, 55 + Math.random() * 45);
+          schedule(55 + Math.random() * 45);
         } else {
           charIndex--;
           target.textContent = word.slice(0, charIndex);
@@ -158,9 +174,17 @@ const typingWords = [
             deleting = false;
             wordIndex = (wordIndex + 1) % words.length;
           }
-          setTimeout(tick, 28);
+          schedule(28);
         }
       };
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "hidden") {
+          window.clearTimeout(timerId);
+        } else {
+          schedule(200);
+        }
+      });
 
       tick();
     }

@@ -1,11 +1,17 @@
 ---
 import { ArrowUpRight } from "@lucide/astro";
 import type { SiteConfig } from "../types";
+import { getLang } from "../lib/i18n";
 
 type Props = Pick<SiteConfig, "author" | "socialLinks">;
 
 const { author, socialLinks } = Astro.props;
 const currentYear = new Date().getFullYear();
+const lang = getLang(Astro.currentLocale);
+const tagline =
+  lang === "es"
+    ? "hecho con Astro, impulsado por IA ⚡"
+    : "built with Astro, powered by AI ⚡";
 ---
 
 <footer class="relative w-full px-5 pt-5 pb-8 text-center text-slate-600 dark:text-slate-300">
@@ -30,6 +36,6 @@ const currentYear = new Date().getFullYear();
     }
   </ul>
   <p class="font-mono text-xs text-slate-500 dark:text-slate-400">
-    {author} · {currentYear} — built with Astro, powered by AI ⚡
+    {author} · {currentYear} — {tagline}
   </p>
 </footer>

@@ -1,13 +1,16 @@
 ---
 /**
  * "Luna AI" — floating chat assistant. Streams answers about Gustavo
- * from /api/chat (Groq · Llama 3.3 70B) with the CV as grounded context.
+ * from /api/chat (Groq · GPT-OSS 120B) with the CV as grounded context.
  */
+import type { Locale } from "../lib/i18n";
+
 interface Props {
-  lang: string;
+  lang: Locale;
+  email: string;
 }
 
-const { lang } = Astro.props;
+const { lang, email } = Astro.props;
 const es = lang === "es";
 
 const t = {
@@ -19,9 +22,13 @@ const t = {
     ? "¡Hola! 👋 Soy Luna AI. Pregúntame lo que quieras sobre la experiencia, proyectos o habilidades de Gustavo."
     : "Hi! 👋 I'm Luna AI. Ask me anything about Gustavo's experience, projects or skills.",
   error: es
-    ? "Ahora mismo no puedo responder 😅. Escríbele directo a albertorl1002@gmail.com"
-    : "I can't answer right now 😅. Reach out directly at albertorl1002@gmail.com",
+    ? `Ahora mismo no puedo responder 😅. Escríbele directo a ${email}`
+    : `I can't answer right now 😅. Reach out directly at ${email}`,
+  rateLimited: es
+    ? "Has enviado varias preguntas seguidas. Intenta de nuevo en unos minutos."
+    : "You've sent several questions in a row. Please try again in a few minutes.",
   open: es ? "Abrir chat de IA" : "Open AI chat",
+  close: es ? "Cerrar chat de IA" : "Close AI chat",
   send: es ? "Enviar" : "Send",
   powered: "Groq · GPT-OSS 120B",
   suggestions: es
@@ -38,7 +45,12 @@ const t = {
 };
 ---
 
-<div id="ai-chat" data-lang={es ? "es" : "en"} data-error={t.error}>
+<div
+  id="ai-chat"
+  data-lang={lang}
+  data-error={t.error}
+  data-rate-limited={t.rateLimited}
+>
   {/* Launcher */}
   <button
     type="button"
@@ -55,6 +67,7 @@ const t = {
       stroke="currentColor"
       stroke-width="2"
       viewBox="0 0 24 24"
+      aria-hidden="true"
     >
       <path
         stroke-linecap="round"
@@ -77,6 +90,7 @@ const t = {
   <div
     id="ai-chat-panel"
     role="dialog"
+    aria-modal="false"
     aria-label={t.title}
     class="glass-card fixed right-5 bottom-24 z-50 hidden w-[min(24rem,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-3xl!"
   >
@@ -85,6 +99,7 @@ const t = {
     >
       <span
         class="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-cyan-500 to-violet-600 text-white"
+        aria-hidden="true"
       >
         <svg
           class="h-4 w-4"
@@ -115,10 +130,31 @@ const t = {
           {t.subtitle}
         </p>
       </div>
+      <button
+        type="button"
+        id="ai-chat-close"
+        aria-label={t.close}
+        class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-slate-500 transition-colors hover:bg-slate-900/10 hover:text-slate-800 dark:text-slate-400 dark:hover:bg-white/10 dark:hover:text-white"
+      >
+        <svg
+          class="h-4 w-4"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
     </div>
 
     <div
       id="ai-chat-messages"
+      aria-live="polite"
       class="flex h-[min(20rem,45vh)] flex-col gap-3 overflow-y-auto px-4 py-4 text-sm"
     >
       <div
@@ -163,6 +199,7 @@ const t = {
           stroke="currentColor"
           stroke-width="2"
           viewBox="0 0 24 24"
+          aria-hidden="true"
         >
           <path
             stroke-linecap="round"
@@ -181,120 +218,177 @@ const t = {
 </div>
 
 <script>
-  const root = document.getElementById("ai-chat")!;
-  const toggle = document.getElementById("ai-chat-toggle")!;
-  const panel = document.getElementById("ai-chat-panel")!;
-  const messagesEl = document.getElementById("ai-chat-messages")!;
-  const form = document.getElementById("ai-chat-form") as HTMLFormElement;
-  const input = document.getElementById("ai-chat-input") as HTMLInputElement;
-  const sendButton = form.querySelector("button") as HTMLButtonElement;
-  const suggestionsEl = document.getElementById("ai-chat-suggestions");
+  import { renderMarkdown } from "../lib/chat/markdown";
 
-  const lang = root.dataset.lang ?? "en";
-  const errorText = root.dataset.error ?? "";
+  const initChat = () => {
+    const root = document.getElementById("ai-chat");
+    const toggle = document.getElementById("ai-chat-toggle");
+    const closeBtn = document.getElementById("ai-chat-close");
+    const panel = document.getElementById("ai-chat-panel");
+    const messagesEl = document.getElementById("ai-chat-messages");
+    const form = document.getElementById("ai-chat-form");
+    const input = document.getElementById("ai-chat-input");
+    const suggestionsEl = document.getElementById("ai-chat-suggestions");
 
-  type Message = { role: "user" | "assistant"; content: string };
-  const history: Message[] = [];
-  let busy = false;
-
-  const USER_BUBBLE =
-    "max-w-[85%] self-end rounded-2xl rounded-br-md bg-gradient-to-br from-indigo-600 to-violet-600 px-3.5 py-2.5 text-white";
-  const AI_BUBBLE =
-    "max-w-[85%] self-start rounded-2xl rounded-bl-md border border-slate-900/10 bg-white/70 px-3.5 py-2.5 text-slate-700 dark:border-white/10 dark:bg-white/10 dark:text-slate-200 whitespace-pre-wrap";
-
-  const scrollToBottom = () => {
-    messagesEl.scrollTop = messagesEl.scrollHeight;
-  };
-
-  const addBubble = (className: string, text: string) => {
-    const div = document.createElement("div");
-    div.className = className;
-    div.textContent = text;
-    messagesEl.appendChild(div);
-    scrollToBottom();
-    return div;
-  };
-
-  const setOpen = (open: boolean) => {
-    panel.classList.toggle("hidden", !open);
-    panel.classList.toggle("flex", open);
-    toggle.setAttribute("aria-expanded", `${open}`);
-    if (open) input.focus();
-  };
-
-  toggle.addEventListener("click", () =>
-    setOpen(panel.classList.contains("hidden"))
-  );
-
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") setOpen(false);
-  });
-
-  const ask = async (question: string) => {
-    if (busy || !question.trim()) return;
-    busy = true;
-    sendButton.disabled = true;
-    suggestionsEl?.remove();
-
-    addBubble(USER_BUBBLE, question);
-    history.push({ role: "user", content: question });
-
-    // Typing indicator until the first token arrives.
-    const aiBubble = addBubble(AI_BUBBLE, "");
-    aiBubble.innerHTML =
-      '<span class="inline-flex gap-1"><span class="h-1.5 w-1.5 animate-bounce rounded-full bg-current opacity-60"></span><span class="h-1.5 w-1.5 animate-bounce rounded-full bg-current opacity-60 [animation-delay:150ms]"></span><span class="h-1.5 w-1.5 animate-bounce rounded-full bg-current opacity-60 [animation-delay:300ms]"></span></span>';
-
-    // Safety net: if the stream ever stalls (dropped connection, upstream
-    // hang) without erroring, this aborts it so the button doesn't stay
-    // stuck disabled forever.
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30000);
-
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: history, lang }),
-        signal: controller.signal,
-      });
-
-      if (!res.ok || !res.body) throw new Error(`status ${res.status}`);
-
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let answer = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        answer += decoder.decode(value, { stream: true });
-        aiBubble.textContent = answer;
-        scrollToBottom();
-      }
-
-      if (!answer) throw new Error("empty response");
-      history.push({ role: "assistant", content: answer });
-    } catch {
-      aiBubble.textContent = errorText;
-    } finally {
-      clearTimeout(timeoutId);
-      busy = false;
-      sendButton.disabled = false;
-      input.focus();
+    if (
+      !(root instanceof HTMLElement) ||
+      !(toggle instanceof HTMLButtonElement) ||
+      !(panel instanceof HTMLElement) ||
+      !(messagesEl instanceof HTMLElement) ||
+      !(form instanceof HTMLFormElement) ||
+      !(input instanceof HTMLInputElement)
+    ) {
+      return;
     }
+
+    const sendButton = form.querySelector('button[type="submit"]');
+    if (!(sendButton instanceof HTMLButtonElement)) return;
+
+    const lang = root.dataset.lang ?? "en";
+    const errorText = root.dataset.error ?? "";
+    const rateLimitedText = root.dataset.rateLimited ?? errorText;
+
+    type Message = { role: "user" | "assistant"; content: string };
+    const history: Message[] = [];
+    let busy = false;
+
+    const USER_BUBBLE =
+      "max-w-[85%] self-end rounded-2xl rounded-br-md bg-gradient-to-br from-indigo-600 to-violet-600 px-3.5 py-2.5 text-sm leading-relaxed text-white break-words";
+    const AI_BUBBLE =
+      "ai-md max-w-[85%] self-start rounded-2xl rounded-bl-md border border-slate-900/10 bg-white/70 px-3.5 py-2.5 text-sm leading-relaxed text-slate-700 break-words dark:border-white/10 dark:bg-white/10 dark:text-slate-200";
+
+    const isOpen = () => !panel.classList.contains("hidden");
+
+    const scrollToBottom = () => {
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    };
+
+    const addBubble = (className: string, text: string) => {
+      const div = document.createElement("div");
+      div.className = className;
+      div.textContent = text;
+      messagesEl.appendChild(div);
+      scrollToBottom();
+      return div;
+    };
+
+    const setOpen = (open: boolean, restoreFocus = false) => {
+      panel.classList.toggle("hidden", !open);
+      panel.classList.toggle("flex", open);
+      toggle.setAttribute("aria-expanded", `${open}`);
+      if (open) {
+        input.focus();
+      } else if (restoreFocus) {
+        toggle.focus();
+      }
+    };
+
+    toggle.addEventListener("click", () => setOpen(!isOpen()));
+    closeBtn?.addEventListener("click", () => setOpen(false, true));
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && isOpen()) {
+        setOpen(false, true);
+      }
+    });
+
+    const ask = async (rawQuestion: string) => {
+      const question = rawQuestion.trim();
+      if (busy || !question) return;
+      busy = true;
+      sendButton.disabled = true;
+      suggestionsEl?.remove();
+
+      addBubble(USER_BUBBLE, question);
+      history.push({ role: "user", content: question });
+
+      // Typing indicator until the first token arrives.
+      const aiBubble = addBubble(AI_BUBBLE, "");
+      aiBubble.innerHTML =
+        '<span class="inline-flex gap-1"><span class="h-1.5 w-1.5 animate-bounce rounded-full bg-current opacity-60"></span><span class="h-1.5 w-1.5 animate-bounce rounded-full bg-current opacity-60 [animation-delay:150ms]"></span><span class="h-1.5 w-1.5 animate-bounce rounded-full bg-current opacity-60 [animation-delay:300ms]"></span></span>';
+
+      // Safety net: if the stream ever stalls (dropped connection, upstream
+      // hang) without erroring, this aborts it so the button doesn't stay
+      // stuck disabled forever.
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
+      let renderFrame = 0;
+
+      try {
+        const res = await fetch("/api/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages: history, lang }),
+          signal: controller.signal,
+        });
+
+        if (res.status === 429) {
+          history.pop();
+          aiBubble.textContent = rateLimitedText;
+          scrollToBottom();
+          return;
+        }
+
+        if (!res.ok || !res.body) throw new Error(`status ${res.status}`);
+
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let answer = "";
+
+        const scheduleRender = () => {
+          if (renderFrame) return;
+          renderFrame = requestAnimationFrame(() => {
+            renderFrame = 0;
+            aiBubble.innerHTML = renderMarkdown(answer);
+            scrollToBottom();
+          });
+        };
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          answer += decoder.decode(value, { stream: true });
+          scheduleRender();
+        }
+
+        // Flush any remaining multi-byte UTF-8 sequence.
+        answer += decoder.decode();
+        if (renderFrame) {
+          cancelAnimationFrame(renderFrame);
+          renderFrame = 0;
+        }
+
+        if (!answer.trim()) throw new Error("empty response");
+        aiBubble.innerHTML = renderMarkdown(answer);
+        scrollToBottom();
+        history.push({ role: "assistant", content: answer });
+      } catch {
+        history.pop();
+        aiBubble.textContent = errorText;
+        scrollToBottom();
+      } finally {
+        if (renderFrame) cancelAnimationFrame(renderFrame);
+        clearTimeout(timeoutId);
+        busy = false;
+        sendButton.disabled = false;
+        input.focus();
+      }
+    };
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const question = input.value;
+      input.value = "";
+      ask(question);
+    });
+
+    document.querySelectorAll(".suggestion-chip").forEach((chip) => {
+      chip.addEventListener("click", () => {
+        setOpen(true);
+        ask(chip.textContent?.trim() ?? "");
+      });
+    });
   };
 
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const question = input.value;
-    input.value = "";
-    ask(question);
-  });
-
-  document.querySelectorAll(".suggestion-chip").forEach((chip) => {
-    chip.addEventListener("click", () => {
-      setOpen(true);
-      ask(chip.textContent?.trim() ?? "");
-    });
-  });
+  initChat();
 </script>

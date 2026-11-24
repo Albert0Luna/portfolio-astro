@@ -1,7 +1,10 @@
+import type { ImageMetadata } from "astro";
+
 export interface SiteConfig extends HeaderProps {
   title: string;
+  titleEs: string;
   description: string;
-  lang: string;
+  descriptionEs: string;
   author: string;
   socialLinks: { text: string; href: string }[];
   socialImage: string;
@@ -12,6 +15,7 @@ export interface SiteContent {
   hero: HeroProps;
   experience: ExperienceProps[];
   projects: ProjectProps[];
+  awards: AwardProps[];
   about: AboutProps;
 }
 
@@ -39,13 +43,61 @@ export interface ProjectProps {
   summary: string;
   date: string;
   stack: string[];
-  image: string;
+  image: ImageMetadata;
   linkPreview?: string;
   linkSource?: string;
 }
 
+export interface AwardProps {
+  title: string;
+  project: string;
+  badge: string;
+  issuer: string;
+  date: string;
+  role: string;
+  summary: string;
+  highlights: string[];
+  stack: string[];
+  image: ImageMetadata;
+  imageAlt: string;
+}
+
+export interface CertificationItem {
+  name: string;
+  href?: string;
+}
+
+export interface FocusAreaItem {
+  prefix?: string;
+  highlight: string;
+  suffix?: string;
+}
+
 export interface AboutProps {
-  image: string;
+  image: ImageMetadata;
+  greetingPrefix: string;
+  roleHighlight: string;
+  age: number;
+  experienceYears: string;
+  location: string;
+  degree: string;
+  educationDetails: string;
+  bioIntroPrefix: string;
+  bioAgePrefix?: string;
+  bioAgeLocationConnector: string;
+  bioEducationPrefix: string;
+  bioFocusPrefix: string;
+  bioFocusHighlight: string;
+  languagesLabel: string;
+  languages: string[];
+  certificationsTitle: string;
+  certifications: CertificationItem[];
+  focusTitle: string;
+  focusIntroPrefix: string;
+  focusIntroHighlight: string;
+  focusIntroSuffix: string;
+  focusItems: FocusAreaItem[];
+  closingCta: string;
 }
 
 export interface HeaderProps {
